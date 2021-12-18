@@ -28,6 +28,16 @@ import javax.swing.JToolBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
+import javax.swing.border.BevelBorder;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.UIManager;
 
 public class ViewPrincipal {
 
@@ -62,36 +72,13 @@ public class ViewPrincipal {
 	private void initialize() {
 		frmCoordenadas = new JFrame();
 		frmCoordenadas.setTitle("Coordenadas");
-		frmCoordenadas.setBounds(100, 100, 905, 596);
+		frmCoordenadas.setBounds(100, 100, 400, 800);
 		frmCoordenadas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCoordenadas.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JPopupMenu popupMenu = new JPopupMenu();
-		addPopup(frmCoordenadas.getContentPane(), popupMenu);
-		frmCoordenadas.getContentPane().setLayout(null);
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 101, 22);
-		frmCoordenadas.getContentPane().add(menuBar);
-		
-		JMenu mnNewMenu = new JMenu("New menu");
-		mnNewMenu.setBounds(10, 170, 111, 24);
-		frmCoordenadas.getContentPane().add(mnNewMenu);
-	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
+		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
+		frmCoordenadas.getContentPane().add(panel);
+		panel.setLayout(null);
 	}
 }

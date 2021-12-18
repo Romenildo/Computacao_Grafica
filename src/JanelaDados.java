@@ -7,22 +7,33 @@
  * 		    Romenildo do Vale ferreira.
  */
 
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.security.auth.login.FailedLoginException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+
+import TelaMenus.panelRetaDDA;
 
 
 public class JanelaDados extends JFrame{
+	JPanel panelPrincipal = new JPanel();
 	
 	JLabel mousePosition;
 	JLabel coordenadaMundo;
 	JLabel coordenadaCentralizadaNormalizada;
+	
+	panelRetaDDA menuRetaDDA = new panelRetaDDA();
 	
 	//MENU
 	JMenuBar barra = new JMenuBar();
@@ -49,6 +60,10 @@ public class JanelaDados extends JFrame{
 	public JanelaDados(String titulo) {
 		super(titulo);
 		
+		panelPrincipal.setBounds(100, 100, 366, 743);
+		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
+		add(panelPrincipal);
+		
 		//Menu
 		setJMenuBar(barra);
 		
@@ -73,23 +88,43 @@ public class JanelaDados extends JFrame{
 				System.exit(0);
 			}
 		});
+		item2D_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mudarPanelRetaDDA();
+            }
+        });
 		
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); 
-		setSize (400, 800); 
+		setBounds(100, 100, 400, 800);
 		setVisible (true); 
-		setLocationRelativeTo(null);//janela no centro da tela
-		setResizable(true);//pode redimensionar janela	
-		setLayout(new FlowLayout(1));
-
+		setResizable(false);//pode redimensionar janela	
+		setLayout(null);
 		mousePosition = new JLabel();
-		add(mousePosition);
+		panelPrincipal.add(mousePosition);
 
 		coordenadaCentralizadaNormalizada = new JLabel();
-		add(coordenadaCentralizadaNormalizada);
+		panelPrincipal.add(coordenadaCentralizadaNormalizada);
 		
 		coordenadaMundo = new JLabel();
-		add(coordenadaMundo);
-
-		
+		panelPrincipal.add(coordenadaMundo);
+	
 	}
+	
+	//Funcoes
+	private void mudarPanelPrincipal(JPanel panelRecebido) {
+		panelPrincipal.removeAll();
+		panelPrincipal.repaint();
+		
+		panelPrincipal.setLayout(new FlowLayout());
+		//mudar layout grid ou felx
+		panelPrincipal.add(panelRecebido);
+		panelPrincipal.validate();
+	}
+	
+	private void mudarPanelRetaDDA() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuRetaDDA);
+	}
+	
+	
 }
