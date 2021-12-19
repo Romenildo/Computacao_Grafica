@@ -39,34 +39,34 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	//----MOUSE EVENTS----
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		janelaDados.mousePosition.setText("Mouse clicado na coordenada : [" + e.getX() + "," + e.getY() + "]");
+		janelaDados.menuCoordenadas.mousePosition.setText("Mouse clicado na coordenada : [" + e.getX() + "," + e.getY() + "]");
 		drawPixel(e.getX(),e.getY());
 	}
 	
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		janelaDados.mousePosition.setText("Coordenada atual do mouse : [" + e.getX() + "," + e.getY() + "]");
+		janelaDados.menuCoordenadas.mousePosition.setText("Coordenada atual do mouse : [" + e.getX() + "," + e.getY() + "]");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		janelaDados.mousePosition.setText("O Mouse está fora da janela de acesso");
-		janelaDados.coordenadaMundo.setText("");
-		janelaDados.coordenadaCentralizadaNormalizada.setText("");
+		janelaDados.menuCoordenadas.mousePosition.setText("O Mouse está fora da janela de acesso");
+		janelaDados.menuCoordenadas.coordenadaMundo.setText("");
+		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText("");
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		janelaDados.mousePosition.setText("Coordenadas do dispositivo : [" + e.getX() + "," + e.getY() + "]");
+		janelaDados.menuCoordenadas.mousePosition.setText("Coordenadas do dispositivo : [" + e.getX() + "," + e.getY() + "]");
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		janelaDados.mousePosition.setText("Mouse arrastado nas coordenadas : [" + e.getX() + "," + e.getY() + "]");
+		janelaDados.menuCoordenadas.mousePosition.setText("Mouse arrastado nas coordenadas : [" + e.getX() + "," + e.getY() + "]");
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		janelaDados.mousePosition.setText("Mouse pressionado nas coordenadas : [" + e.getX() + "," + e.getY() + "]");
+		janelaDados.menuCoordenadas.mousePosition.setText("Mouse pressionado nas coordenadas : [" + e.getX() + "," + e.getY() + "]");
 		
 	}
 	
@@ -82,7 +82,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		//Coordenadas do dispositivo
 		float dcx = Math.round((e.getX() + this.janelaConfig.valorDispositivoXmin));//300
         float dcy =  Math.round((e.getY() + this.janelaConfig.valorDispositivoYmin));// 300
-		janelaDados.mousePosition.setText("Coordenadas do dispositivo : [" + dcx + ", " + dcy + "]");
+		janelaDados.menuCoordenadas.mousePosition.setText("Coordenadas do dispositivo : [" + dcx + ", " + dcy + "]");
 		
 		// Cálculo das transformações da coordenada normal para mundo:
 		float ndh = variacaoX;// 700
@@ -96,7 +96,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		float y = Math.round((ndcy * (this.janelaConfig.valorMundoYmax - this.janelaConfig.valorMundoYmin))
 				+ this.janelaConfig.valorMundoYmin);
 	
-		janelaDados.coordenadaMundo.setText("coordenadas do mundo : [" + x + ", " + y + "]");
+		janelaDados.menuCoordenadas.coordenadaMundo.setText("coordenadas do mundo : [" + x + ", " + y + "]");
 		
 		
 		//------------COORDENADAS NORMALIZADAS ENTRE -1 E 1---------------
@@ -106,7 +106,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 
 		ndcx = (dcx / (ndh - 1));
         ndcy = (dcy /(ndv - 1));
-		janelaDados.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.6f , %.6f]\n",ndcx,ndcy));
+		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.6f , %.6f]\n",ndcx,ndcy));
 		
 		
 	}

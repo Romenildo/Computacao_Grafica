@@ -23,17 +23,17 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
+import TelaMenus.panelCoordenadas;
 import TelaMenus.panelRetaDDA;
+import TelaMenus.panelRetaPontoMedio;
 
 
 public class JanelaDados extends JFrame{
 	JPanel panelPrincipal = new JPanel();
 	
-	JLabel mousePosition;
-	JLabel coordenadaMundo;
-	JLabel coordenadaCentralizadaNormalizada;
-	
+	panelCoordenadas menuCoordenadas = new panelCoordenadas();
 	panelRetaDDA menuRetaDDA = new panelRetaDDA();
+	panelRetaPontoMedio menuRetaPontoMedio = new panelRetaPontoMedio();
 	
 	//MENU
 	JMenuBar barra = new JMenuBar();
@@ -41,13 +41,13 @@ public class JanelaDados extends JFrame{
 	//--------ITENS DO MENU -----
 	//menu opcoes
 	JMenu menuOP = new JMenu("Opcoes");
-	JMenuItem itemOP_1 = new JMenuItem("Início");
+	JMenuItem itemOP_inicio = new JMenuItem("Início");
 	JMenuItem itemOP_2 = new JMenuItem("Limpar tela");
 	
 	//menu 2d
 	JMenu menu2D = new JMenu("Gráficos 2D");
-	JMenuItem item2D_1 = new JMenuItem("Reta DDA");
-	JMenuItem item2D_2 = new JMenuItem("Reta Ponto Médio");
+	JMenuItem item2D_retaDDA = new JMenuItem("Reta DDA");
+	JMenuItem item2D_retaPM = new JMenuItem("Reta Ponto Médio");
 	JMenuItem item2D_3 = new JMenuItem("Circunferência Equação Explícita");
 	JMenuItem item2D_4 = new JMenuItem("Circunferência Método Trigonométrico");
 	JMenuItem item2D_5 = new JMenuItem("Circunferência Ponto médio");
@@ -68,12 +68,12 @@ public class JanelaDados extends JFrame{
 		setJMenuBar(barra);
 		
 		barra.add(menuOP);
-		menuOP.add(itemOP_1);
+		menuOP.add(itemOP_inicio);
 		menuOP.add(itemOP_2);
 		
 		barra.add(menu2D);
-		menu2D.add(item2D_1);
-		menu2D.add(item2D_2);
+		menu2D.add(item2D_retaDDA);
+		menu2D.add(item2D_retaPM);
 		menu2D.add(item2D_3);
 		menu2D.add(item2D_4);
 		menu2D.add(item2D_5);
@@ -88,9 +88,20 @@ public class JanelaDados extends JFrame{
 				System.exit(0);
 			}
 		});
-		item2D_1.addActionListener(new ActionListener() {
+		itemOP_inicio.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mudarPanelCoordenadas();
+            }
+        });
+		
+		item2D_retaDDA.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mudarPanelRetaDDA();
+            }
+        });
+		item2D_retaPM.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mudarPanelRetaPontoMedio();
             }
         });
 		
@@ -99,14 +110,6 @@ public class JanelaDados extends JFrame{
 		setVisible (true); 
 		setResizable(false);//pode redimensionar janela	
 		setLayout(null);
-		mousePosition = new JLabel();
-		panelPrincipal.add(mousePosition);
-
-		coordenadaCentralizadaNormalizada = new JLabel();
-		panelPrincipal.add(coordenadaCentralizadaNormalizada);
-		
-		coordenadaMundo = new JLabel();
-		panelPrincipal.add(coordenadaMundo);
 	
 	}
 	
@@ -115,15 +118,26 @@ public class JanelaDados extends JFrame{
 		panelPrincipal.removeAll();
 		panelPrincipal.repaint();
 		
-		panelPrincipal.setLayout(new FlowLayout());
-		//mudar layout grid ou felx
+		panelPrincipal.setLayout(null);
+		
 		panelPrincipal.add(panelRecebido);
 		panelPrincipal.validate();
+		
 	}
 	
 	private void mudarPanelRetaDDA() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuRetaDDA);
+	}
+	
+	private void mudarPanelCoordenadas() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuCoordenadas);
+	}
+	
+	private void mudarPanelRetaPontoMedio() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuRetaPontoMedio);
 	}
 	
 	
