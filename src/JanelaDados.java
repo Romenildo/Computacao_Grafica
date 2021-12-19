@@ -42,7 +42,7 @@ public class JanelaDados extends JFrame{
 	PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
 	PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
 	
-	//MENU
+	//DECLARACAO DOS MENUS
 	JMenuBar barra = new JMenuBar();
 	
 	//--------ITENS DO MENU -----
@@ -68,14 +68,16 @@ public class JanelaDados extends JFrame{
 		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
 		add(panelPrincipal);
 		
-		//Menu
+		//  ---ITENS DAS OPCOES DO MENU
 		setJMenuBar(barra);
 		
+		//menu opcoes
 		barra.add(menuOP);
 		menuOP.add(itemOP_inicio);
 		menuOP.add(itemOP_limparTela);
 		menuOP.add(itemOP_sair);
 		
+		//menu graficos2D
 		barra.add(menu2D);
 		menu2D.add(item2D_retaDDA);
 		menu2D.add(item2D_retaPM);
@@ -84,17 +86,26 @@ public class JanelaDados extends JFrame{
 		menu2D.add(item2D_CircPM);
 		
 		
-		//Eventos ao clicar
-		itemOP_sair.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+		//   ---EVENTOS AO CLICAR NAS OPCOES DO MENU
+		
 		itemOP_inicio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mudarPanelCoordenadas();
             }
         });
+		itemOP_limparTela.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//implementar a opcao de limpar a tela
+			}
+		});
+		
+		
+		itemOP_sair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
 		
 		item2D_retaDDA.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +132,7 @@ public class JanelaDados extends JFrame{
             	mudarPanelCircunferenciaPM();
             }
         });
+		// --- FIM DOS EVENTOS DO MENU
 		
 		
 		
@@ -132,7 +144,7 @@ public class JanelaDados extends JFrame{
 	
 	}
 	
-	//Funcoes
+	//   ----- FUNCOES PARA MUDAR O PANEL DA JANELA OPCOES
 	private void mudarPanelPrincipal(JPanel panelRecebido) {
 		panelPrincipal.removeAll();
 		panelPrincipal.repaint();
