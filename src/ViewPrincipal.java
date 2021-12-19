@@ -145,12 +145,13 @@ public class ViewPrincipal {
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(67, 27, 172, 91);
+		scrollTabela.setBounds(31, 25, 222, 91);
 		panelTabela.add(scrollTabela);
 		
 		tabela = new JTable();
+		tabela.setRowSelectionAllowed(false);
 		scrollTabela.setViewportView(tabela);
-		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabela.setFont(new Font("Arial", Font.PLAIN, 12));
 		tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
 		tabela.setBackground(Color.WHITE);
@@ -159,10 +160,9 @@ public class ViewPrincipal {
 				{null, null},
 				{null, null},
 				{null, null},
-				{null, null},
 			},
 			new String[] {
-				"X0 = X", "Y0 = Y"
+				"a", "b"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -170,12 +170,6 @@ public class ViewPrincipal {
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		});
 		tabela.getColumnModel().getColumn(1).setMinWidth(18);

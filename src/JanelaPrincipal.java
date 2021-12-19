@@ -27,6 +27,10 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
 	
+	int tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+	int tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+	
+	
 	public JanelaPrincipal(String titulo) {
 		super(titulo);
 		
@@ -118,12 +122,14 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
         super.paint(g);
         this.setBackground(Color.white);
         g.setColor(Color.LIGHT_GRAY);
-        
-        int tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
-		int tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
 
-        g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//reta x
-        g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//reta Y
+        g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
+        g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
+    }
+	
+	public void limparTela() {
+           this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
+           this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
     }
 	
 	//Desenha o pixel na tela grafica

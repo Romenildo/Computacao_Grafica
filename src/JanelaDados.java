@@ -63,6 +63,11 @@ public class JanelaDados extends JFrame{
 	
 	public JanelaDados(String titulo) {
 		super(titulo);
+		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); 
+		setBounds(100, 100, 400, 800);
+		setVisible (true); 
+		setResizable(false);//pode redimensionar janela	
+		setLayout(null);
 		
 		panelPrincipal.setBounds(100, 100, 366, 743);
 		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
@@ -133,14 +138,7 @@ public class JanelaDados extends JFrame{
             }
         });
 		// --- FIM DOS EVENTOS DO MENU
-		
-		
-		
-		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); 
-		setBounds(100, 100, 400, 800);
-		setVisible (true); 
-		setResizable(false);//pode redimensionar janela	
-		setLayout(null);
+
 	
 	}
 	
