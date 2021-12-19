@@ -23,6 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
+import TelaMenus.PanelCircunferenciaEE;
+import TelaMenus.PanelCircunferenciaMT;
+import TelaMenus.PanelCircunferenciaPM;
 import TelaMenus.panelCoordenadas;
 import TelaMenus.panelRetaDDA;
 import TelaMenus.panelRetaPontoMedio;
@@ -31,9 +34,13 @@ import TelaMenus.panelRetaPontoMedio;
 public class JanelaDados extends JFrame{
 	JPanel panelPrincipal = new JPanel();
 	
+	//DECLARACAO DOS PANELs
 	panelCoordenadas menuCoordenadas = new panelCoordenadas();
 	panelRetaDDA menuRetaDDA = new panelRetaDDA();
 	panelRetaPontoMedio menuRetaPontoMedio = new panelRetaPontoMedio();
+	PanelCircunferenciaEE menuCircunferenciaEE = new PanelCircunferenciaEE();
+	PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
+	PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
 	
 	//MENU
 	JMenuBar barra = new JMenuBar();
@@ -42,20 +49,17 @@ public class JanelaDados extends JFrame{
 	//menu opcoes
 	JMenu menuOP = new JMenu("Opcoes");
 	JMenuItem itemOP_inicio = new JMenuItem("Início");
-	JMenuItem itemOP_2 = new JMenuItem("Limpar tela");
+	JMenuItem itemOP_limparTela = new JMenuItem("Limpar tela");
+	JMenuItem itemOP_sair = new JMenuItem("Sair");
 	
 	//menu 2d
 	JMenu menu2D = new JMenu("Gráficos 2D");
 	JMenuItem item2D_retaDDA = new JMenuItem("Reta DDA");
 	JMenuItem item2D_retaPM = new JMenuItem("Reta Ponto Médio");
-	JMenuItem item2D_3 = new JMenuItem("Circunferência Equação Explícita");
-	JMenuItem item2D_4 = new JMenuItem("Circunferência Método Trigonométrico");
-	JMenuItem item2D_5 = new JMenuItem("Circunferência Ponto médio");
-	JMenuItem item2D_6 = new JMenuItem("Elipse Ponto Médio");
+	JMenuItem item2D_CircEE = new JMenuItem("Circunferência Equação Explícita");
+	JMenuItem item2D_CircMT = new JMenuItem("Circunferência Método Trigonométrico");
+	JMenuItem item2D_CircPM = new JMenuItem("Circunferência Ponto médio");
 	
-	//menu Sair
-	JMenu menuSair = new JMenu("Sair");
-	JMenuItem itemSair = new JMenuItem("Sair");
 	
 	public JanelaDados(String titulo) {
 		super(titulo);
@@ -69,21 +73,19 @@ public class JanelaDados extends JFrame{
 		
 		barra.add(menuOP);
 		menuOP.add(itemOP_inicio);
-		menuOP.add(itemOP_2);
+		menuOP.add(itemOP_limparTela);
+		menuOP.add(itemOP_sair);
 		
 		barra.add(menu2D);
 		menu2D.add(item2D_retaDDA);
 		menu2D.add(item2D_retaPM);
-		menu2D.add(item2D_3);
-		menu2D.add(item2D_4);
-		menu2D.add(item2D_5);
-		menu2D.add(item2D_6);
+		menu2D.add(item2D_CircEE);
+		menu2D.add(item2D_CircMT);
+		menu2D.add(item2D_CircPM);
 		
-		barra.add(menuSair);
-		menuSair.add(itemSair);
 		
 		//Eventos ao clicar
-		itemSair.addActionListener(new ActionListener() {
+		itemOP_sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
@@ -104,6 +106,23 @@ public class JanelaDados extends JFrame{
             	mudarPanelRetaPontoMedio();
             }
         });
+		item2D_CircEE.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mudarPanelCircunferenciaEE();
+            }
+        });
+		item2D_CircMT.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mudarPanelCircunferenciaMT();
+            }
+        });
+		item2D_CircPM.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mudarPanelCircunferenciaPM();
+            }
+        });
+		
+		
 		
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); 
 		setBounds(100, 100, 400, 800);
@@ -140,5 +159,19 @@ public class JanelaDados extends JFrame{
 		mudarPanelPrincipal(menuRetaPontoMedio);
 	}
 	
+	private void mudarPanelCircunferenciaEE() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuCircunferenciaEE);
+	}
+	
+	private void mudarPanelCircunferenciaMT() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuCircunferenciaMT);
+	}
+	
+	private void mudarPanelCircunferenciaPM() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuCircunferenciaPM);
+	}
 	
 }

@@ -33,15 +33,10 @@ public class panelRetaPontoMedio extends JPanel {
 		setLayout(null);
 		setSize(400,800);
 		
-		JPanel panelPrincipal = new JPanel();
-		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
-		add(panelPrincipal);
-		panelPrincipal.setLayout(null);
-		
 		JPanel panelRetaPM = new JPanel();
 		panelRetaPM.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Reta Ponto M\u00E9dio", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelRetaPM.setBounds(10, 10, 366, 743);
-		panelPrincipal.add(panelRetaPM);
+		add(panelRetaPM);
 		panelRetaPM.setLayout(null);
 		
 		JPanel panelDesenhaReta = new JPanel();
