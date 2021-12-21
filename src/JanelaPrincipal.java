@@ -27,8 +27,10 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
 	
-	int tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
-	int tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+	int tamanhoTelaX;
+	int tamanhoTelaY;
+	
+	
 	
 	
 	public JanelaPrincipal(String titulo) {
@@ -36,6 +38,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		
 		this.janelaConfig = new JanelaConfig();
 		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");		
+		
+		//Adicionados
+			janelaDados.itemOP_limparTela.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					limparTela();
+				}
+			});
 	}// fim do construtor
 
 	
@@ -111,9 +120,9 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		ndcx = (dcx / (ndh - 1));
         ndcy = (dcy /(ndv - 1));
 		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.6f , %.6f]\n",ndcx,ndcy));
-		
-		
 	}
+	
+	
 			
 	//---FUNCOES DE DESENHO----
 	
@@ -122,14 +131,20 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
         super.paint(g);
         this.setBackground(Color.white);
         g.setColor(Color.LIGHT_GRAY);
+        
+        tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+    	tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
 
         g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
         g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
     }
 	
 	public void limparTela() {
-           this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
-           this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
+			tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+			tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+			
+			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
+			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
     }
 	
 	//Desenha o pixel na tela grafica
