@@ -27,22 +27,41 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
 	
-	int tamanhoTelaX;
-	int tamanhoTelaY;
-	
-	
-	
-	
+	static int tamanhoTelaX;
+	static int tamanhoTelaY;
+
 	public JanelaPrincipal(String titulo) {
 		super(titulo);
 		
 		this.janelaConfig = new JanelaConfig();
-		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");		
-		
+		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");	
+    	
 		//Adicionados
 			janelaDados.itemOP_limparTela.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					limparTela();
+				}
+			});
+			
+			janelaDados.menuCircunferenciaPM.btnDesenhar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
+					String [] stringSeparada =janelaDados.menuCircunferenciaPM.campoXY.getText().split(",");
+					if(stringSeparada.length == 3) {
+						posicoes[0] += Integer.parseInt(stringSeparada[0]);
+						posicoes[1] += Integer.parseInt(stringSeparada[1]);
+					}else {
+						if(stringSeparada.length == 5) {
+							posicoes[0] = Integer.parseInt(stringSeparada[1]);
+							posicoes[1] = Integer.parseInt(stringSeparada[3]);
+						}else {
+							System.out.println("Parametro de (X,Y) invalido");
+						}
+					}
+					int raio = Integer.parseInt(janelaDados.menuCircunferenciaPM.campoRaio.getText());
+					
+					desenhaCircunferenciaPM(raio,posicoes[0],posicoes[1]);
 				}
 			});
 	}// fim do construtor
@@ -54,6 +73,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	public void mouseClicked(MouseEvent e) {
 		janelaDados.menuCoordenadas.mousePosition.setText("Mouse clicado na coordenada : [" + e.getX() + "," + e.getY() + "]");
 		drawPixel(e.getX(),e.getY());
+		
+		desenhaCircunferenciaPM(100,e.getX(),e.getY());
 	}
 	
 	@Override
@@ -131,17 +152,12 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
         super.paint(g);
         this.setBackground(Color.white);
         g.setColor(Color.LIGHT_GRAY);
-        
-        tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
-    	tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
-
+         
         g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
         g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
     }
 	
 	public void limparTela() {
-			tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
-			tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
 			
 			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
 			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
@@ -151,7 +167,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	public void drawPixel(int x, int y) {
 	     Graphics g = super.getGraphics();
 	     g.setColor(Color.RED);
-	     g.fillRect(x, y, 5, 5);
+	     g.fillRect(x, y, 1, 1);
 	}
 	
 	//---Comecar a janela de coordenadas---
@@ -165,6 +181,43 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+    	tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
 	}// fim do método start
+	
+	//Metodos de desenho
+	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
+		int x = 0;
+		int y = raio;
+		int d = 1-raio;
+		
+		drawPixel(x + posicaoX ,posicaoY - y);//desenhar o centro
+		desenhaCirculoDePontos(x, y,posicaoX, posicaoY);
+		
+		while(y > x) {
+			if(d<0) {//escolha E
+				d += 2 * x + 3;
+			}else {//escolhe SE
+				d += 2 * (x - y) + 5;
+				y--;
+			}
+			x++;
+			desenhaCirculoDePontos(x, y,posicaoX, posicaoY);
+		}
+	}
+	
+	public void desenhaCirculoDePontos(int x, int y, int posicaoX, int posicaoY) {
+		
+		drawPixel(x + posicaoX, posicaoY + y);
+		drawPixel(y + posicaoX, posicaoY + x);
+		drawPixel(y + posicaoX, posicaoY - x);
+		drawPixel(x + posicaoX, posicaoY - y);
+		drawPixel(-x + posicaoX, posicaoY - y);
+		drawPixel(-y + posicaoX, posicaoY - x);
+		drawPixel(-y + posicaoX, posicaoY + x);
+		drawPixel(-x + posicaoX, posicaoY + y);
+		 
+	}
 
 }

@@ -18,10 +18,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class PanelCircunferenciaPM extends JPanel{
 	
-	private JTextField campoXY;
-	private JTextField campoRaio;
-	private JTable tabela;
-	private JTextField campoD;
+	public JTextField campoXY;
+	public JTextField campoRaio;
+	public JTable tabela;
+	public JTextField campoD;
+	public JButton btnDesenhar;
 	
 	public PanelCircunferenciaPM() {
 		setLayout(null);
@@ -59,7 +60,7 @@ public class PanelCircunferenciaPM extends JPanel{
 		panelDesenhaCircunferenciaPM.add(campoRaio);
 		campoRaio.setColumns(10);
 		
-		JButton btnDesenhar = new JButton("Desenhar");
+		btnDesenhar = new JButton("Desenhar");
 		btnDesenhar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnDesenhar.setBounds(92, 124, 108, 33);
 		panelDesenhaCircunferenciaPM.add(btnDesenhar);
@@ -116,4 +117,6 @@ public class PanelCircunferenciaPM extends JPanel{
 		});
 		tabela.getColumnModel().getColumn(1).setMinWidth(18);
 	}
+	
+	
 }
