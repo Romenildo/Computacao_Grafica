@@ -48,16 +48,11 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 					
 					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
 					String [] stringSeparada =janelaDados.menuCircunferenciaPM.campoXY.getText().split(",");
-					if(stringSeparada.length == 3) {
+					if(stringSeparada.length == 2) {
 						posicoes[0] += Integer.parseInt(stringSeparada[0]);
 						posicoes[1] += Integer.parseInt(stringSeparada[1]);
 					}else {
-						if(stringSeparada.length == 5) {
-							posicoes[0] = Integer.parseInt(stringSeparada[1]);
-							posicoes[1] = Integer.parseInt(stringSeparada[3]);
-						}else {
-							System.out.println("Parametro de (X,Y) invalido");
-						}
+						System.out.println("parametro errado somente x,y");
 					}
 					int raio = Integer.parseInt(janelaDados.menuCircunferenciaPM.campoRaio.getText());
 					
@@ -190,11 +185,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
 		int x = 0;
 		int y = raio;
-		int d = 1-raio;
+		double d = 5/4 - raio;
 		
+		janelaDados.menuCircunferenciaPM.campoD.setText(String.valueOf(d));
+
 		drawPixel(x + posicaoX ,posicaoY - y);//desenhar o centro
 		desenhaCirculoDePontos(x, y,posicaoX, posicaoY);
-		
+
 		while(y > x) {
 			if(d<0) {//escolha E
 				d += 2 * x + 3;
@@ -204,19 +201,29 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			}
 			x++;
 			desenhaCirculoDePontos(x, y,posicaoX, posicaoY);
+			System.out.println("x= "+ x);
+			System.out.println("y= "+ y);
 		}
 	}
 	
 	public void desenhaCirculoDePontos(int x, int y, int posicaoX, int posicaoY) {
 		
 		drawPixel(x + posicaoX, posicaoY + y);
+		System.out.println(x + " " + y);
 		drawPixel(y + posicaoX, posicaoY + x);
+		System.out.println(y + " " + x);
 		drawPixel(y + posicaoX, posicaoY - x);
+		System.out.println(y + " " + -x);
 		drawPixel(x + posicaoX, posicaoY - y);
+		System.out.println(x + " " + -y);
 		drawPixel(-x + posicaoX, posicaoY - y);
+		System.out.println(-x + " " + -y);
 		drawPixel(-y + posicaoX, posicaoY - x);
+		System.out.println(-y + " " + -x);
 		drawPixel(-y + posicaoX, posicaoY + x);
+		System.out.println(-y + " " + x);
 		drawPixel(-x + posicaoX, posicaoY + y);
+		System.out.println(-x + " " + y);
 		 
 	}
 

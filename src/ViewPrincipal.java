@@ -50,8 +50,8 @@ public class ViewPrincipal {
 	private JFrame frmCoordenadas;
 	private JTextField campoXY;
 	private JTextField campoRaio;
-	private JTable tabela;
 	private JTextField campoD;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -145,33 +145,34 @@ public class ViewPrincipal {
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(31, 25, 222, 91);
+		scrollTabela.setBounds(31, 25, 222, 314);
 		panelTabela.add(scrollTabela);
 		
-		tabela = new JTable();
-		tabela.setRowSelectionAllowed(false);
-		scrollTabela.setViewportView(tabela);
-		tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tabela.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabela.setBackground(Color.WHITE);
-		tabela.setModel(new DefaultTableModel(
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
 			},
 			new String[] {
-				"a", "b"
+				"-", "X", "Y"
 			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		tabela.getColumnModel().getColumn(1).setMinWidth(18);
+		));
+		scrollTabela.setViewportView(table);
 	}
 }
