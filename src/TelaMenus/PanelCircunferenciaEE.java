@@ -23,7 +23,6 @@ public class PanelCircunferenciaEE extends JPanel{
 	public JTextField campoRaio;
 	public JTable tabela;
 	public JButton btnDesenhar;
-	public Object[][] tabelaItens;
 	
 	public PanelCircunferenciaEE() {
 		setLayout(null);
@@ -77,7 +76,7 @@ public class PanelCircunferenciaEE extends JPanel{
 		panelTabela.add(scrollTabela);
 		
 		//CRIANDO TAMANHO E TITULO DA COLUNA
-		tabelaItens =new Object[4][1000];
+		Object [][]tabelaItens =new Object[4][1000];
 		tabelaItens[0][0] = "X0 = X";
 		tabelaItens[1][0] = "Y0 = Y";
 		tabelaItens[2][0] = "X1 = X";

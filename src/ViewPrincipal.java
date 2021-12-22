@@ -147,7 +147,7 @@ public class ViewPrincipal {
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(32, 36, 209, 110);
+		scrollTabela.setBounds(32, 36, 209, 320);
 		panelTabela.add(scrollTabela);
 		
 		Object[][] tabelaItens =new Object[][] {
@@ -160,24 +160,34 @@ public class ViewPrincipal {
 		table.setFont(new Font("Arial", Font.PLAIN, 15));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setDefaultEditor(Object.class, null);
-		table.setModel(new DefaultTableModel(tabelaItens
-			,
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"X0 = X", null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
 			new String[] {
-				"-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-				 "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-				 "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", 
-				
+				"-", "1", "2"
 			}
 		) );
 		
 		// CENTRALIZAR OS ITENS DA TABELA
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 				
-		for(int i=0;i<tabelaItens.length;i++){
-	         table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
-	         table.getColumnModel().getColumn(i).setPreferredWidth(50);
-	        }
+
 		scrollTabela.setViewportView(table);
 	}
 }

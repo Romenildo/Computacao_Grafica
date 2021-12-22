@@ -43,6 +43,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				}
 			});
 			
+			
+			// AÇÕES DAS JANELAS DAS CIRCUNFERENCIAS
 			janelaDados.menuCircunferenciaEE.btnDesenhar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -57,6 +59,23 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 					int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
 					
 					desenhaCircunferenciaEE(raio,posicoes[0],posicoes[1]);
+				}
+			});
+			
+			janelaDados.menuCircunferenciaMT.btnDesenhar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
+					String [] stringSeparada =janelaDados.menuCircunferenciaMT.campoXY.getText().split(",");
+					if(stringSeparada.length == 2) {
+						posicoes[0] += Integer.parseInt(stringSeparada[0]);
+						posicoes[1] += Integer.parseInt(stringSeparada[1]);
+					}else {
+						System.out.println("parametro errado somente x,y");
+					}
+					int raio = Integer.parseInt(janelaDados.menuCircunferenciaMT.campoRaio.getText());
+					
+					desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
 				}
 			});
 			
@@ -218,10 +237,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			janelaDados.menuCircunferenciaEE.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
 			tabelaLinha = 0;
 			tabelaColuna++;
-		}
-		
-		
+		}	
 	}
+	//Equacao trigonometrica
+		public void desenhaCircunferenciaMT(int raio, int posicaoX, int posicaoY) {
+			
+		}
+	//Ponto medio
 	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
 		int x = 0;
 		int y = raio;

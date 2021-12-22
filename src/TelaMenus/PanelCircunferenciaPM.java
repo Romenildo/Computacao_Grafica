@@ -14,6 +14,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class PanelCircunferenciaPM extends JPanel{
@@ -82,40 +83,51 @@ public class PanelCircunferenciaPM extends JPanel{
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(67, 27, 172, 91);
+		scrollTabela.setBounds(32, 36, 209, 320);
 		panelTabela.add(scrollTabela);
 		
-		tabela = new JTable();
-		scrollTabela.setViewportView(tabela);
-		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabela.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabela.setBackground(Color.WHITE);
-		tabela.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"X0 = X", "Y0 = Y"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tabela.getColumnModel().getColumn(1).setMinWidth(18);
+		//CRIANDO TAMANHO E TITULO DA COLUNA
+				Object [][]tabelaItens =new Object[17][1000];
+				tabelaItens[0][0] = " D ";
+				tabelaItens[1][0] = "X0 = X";
+				tabelaItens[2][0] = "Y0 = Y";
+				tabelaItens[3][0] = "X1 = Y";
+				tabelaItens[4][0] = "Y1 = X";
+				tabelaItens[5][0] = "X2 = Y";
+				tabelaItens[6][0] = "Y2 = -X";
+				tabelaItens[7][0] = "X3 = X";
+				tabelaItens[8][0] = "Y3 = -Y";
+				tabelaItens[9][0] = "X4 = -X";
+				tabelaItens[10][0] = "Y4 = -Y";
+				tabelaItens[11][0] = "X5 = -Y";
+				tabelaItens[12][0] = "Y5 = -X";
+				tabelaItens[13][0] = "X6 = -Y";
+				tabelaItens[14][0] = "Y6 = X";
+				tabelaItens[15][0] = "X7 = -X";
+				tabelaItens[16][0] = "Y7 = Y";
+				
+				
+				String []tabelaTitulo = new String[1000];
+				tabelaTitulo[0] = "-";
+				for(int i = 1; i < 1000; i++) {
+					tabelaTitulo[i] = String.valueOf(i);
+				}
+				
+				tabela = new JTable();
+				tabela.setFont(new Font("Arial", Font.PLAIN, 15));
+				tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+				tabela.setDefaultEditor(Object.class, null);
+				tabela.setModel(new DefaultTableModel(tabelaItens,tabelaTitulo) );
+				
+				// CENTRALIZAR OS ITENS DA TABELA
+				DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+				centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+						
+				for(int i=0;i<tabelaItens.length;i++){
+			         tabela.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+			         tabela.getColumnModel().getColumn(i).setPreferredWidth(55);
+			        }
+				scrollTabela.setViewportView(tabela);
 	}
 	
 	
