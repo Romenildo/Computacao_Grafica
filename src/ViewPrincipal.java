@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JSplitPane;
 import java.awt.Component;
@@ -44,6 +45,7 @@ import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
+import javax.swing.ScrollPaneConstants;
 
 public class ViewPrincipal {
 
@@ -145,34 +147,37 @@ public class ViewPrincipal {
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(31, 25, 222, 314);
+		scrollTabela.setBounds(32, 36, 209, 110);
 		panelTabela.add(scrollTabela);
 		
+		Object[][] tabelaItens =new Object[][] {
+			{"X0 = X", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+			{"Y0 = Y", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+			{"X1 = X", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+			{"Y1 = -Y", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+		};
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-			},
+		table.setFont(new Font("Arial", Font.PLAIN, 15));
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setDefaultEditor(Object.class, null);
+		table.setModel(new DefaultTableModel(tabelaItens
+			,
 			new String[] {
-				"-", "X", "Y"
+				"-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+				 "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+				 "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", 
+				
 			}
-		));
+		) );
+		
+		// CENTRALIZAR OS ITENS DA TABELA
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+				
+		for(int i=0;i<tabelaItens.length;i++){
+	         table.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+	         table.getColumnModel().getColumn(i).setPreferredWidth(50);
+	        }
 		scrollTabela.setViewportView(table);
 	}
 }

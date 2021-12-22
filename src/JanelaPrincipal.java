@@ -43,6 +43,23 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				}
 			});
 			
+			janelaDados.menuCircunferenciaEE.btnDesenhar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
+					String [] stringSeparada =janelaDados.menuCircunferenciaEE.campoXY.getText().split(",");
+					if(stringSeparada.length == 2) {
+						posicoes[0] += Integer.parseInt(stringSeparada[0]);
+						posicoes[1] += Integer.parseInt(stringSeparada[1]);
+					}else {
+						System.out.println("parametro errado somente x,y");
+					}
+					int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
+					
+					desenhaCircunferenciaEE(raio,posicoes[0],posicoes[1]);
+				}
+			});
+			
 			janelaDados.menuCircunferenciaPM.btnDesenhar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
@@ -182,6 +199,29 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	}// fim do método start
 	
 	//Metodos de desenho
+	//Circunferencia
+	//Equacao explicita
+	public void desenhaCircunferenciaEE(int raio, int posicaoX, int posicaoY) {
+		
+		int tabelaLinha = 0;
+		int tabelaColuna = 1;
+		int x ,y;
+		int raio2 = (raio* raio);
+		
+		for(x = -raio; x<= raio; x++) {
+			y = (int) Math.round(Math.sqrt(raio2 - x*x));
+			drawPixel(posicaoX + x, posicaoY + y);
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
+			drawPixel(posicaoX + x, posicaoY - y);
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
+			tabelaLinha = 0;
+			tabelaColuna++;
+		}
+		
+		
+	}
 	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
 		int x = 0;
 		int y = raio;
@@ -207,22 +247,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	}
 	
 	public void desenhaCirculoDePontos(int x, int y, int posicaoX, int posicaoY) {
-		
-		drawPixel(x + posicaoX, posicaoY + y);
 		System.out.println(x + " " + y);
-		drawPixel(y + posicaoX, posicaoY + x);
 		System.out.println(y + " " + x);
-		drawPixel(y + posicaoX, posicaoY - x);
 		System.out.println(y + " " + -x);
-		drawPixel(x + posicaoX, posicaoY - y);
 		System.out.println(x + " " + -y);
-		drawPixel(-x + posicaoX, posicaoY - y);
 		System.out.println(-x + " " + -y);
-		drawPixel(-y + posicaoX, posicaoY - x);
 		System.out.println(-y + " " + -x);
-		drawPixel(-y + posicaoX, posicaoY + x);
 		System.out.println(-y + " " + x);
-		drawPixel(-x + posicaoX, posicaoY + y);
 		System.out.println(-x + " " + y);
 		 
 	}

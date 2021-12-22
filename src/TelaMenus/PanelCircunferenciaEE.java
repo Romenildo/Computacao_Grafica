@@ -14,6 +14,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class PanelCircunferenciaEE extends JPanel{
@@ -22,6 +23,7 @@ public class PanelCircunferenciaEE extends JPanel{
 	public JTextField campoRaio;
 	public JTable tabela;
 	public JButton btnDesenhar;
+	public Object[][] tabelaItens;
 	
 	public PanelCircunferenciaEE() {
 		setLayout(null);
@@ -71,40 +73,37 @@ public class PanelCircunferenciaEE extends JPanel{
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(67, 27, 172, 91);
+		scrollTabela.setBounds(32, 36, 209, 110);
 		panelTabela.add(scrollTabela);
 		
+		//CRIANDO TAMANHO E TITULO DA COLUNA
+		tabelaItens =new Object[4][1000];
+		tabelaItens[0][0] = "X0 = X";
+		tabelaItens[1][0] = "Y0 = Y";
+		tabelaItens[2][0] = "X1 = X";
+		tabelaItens[3][0] = "Y1 = -Y";
+		
+		String []tabelaTitulo = new String[1000];
+		tabelaTitulo[0] = "-";
+		for(int i = 1; i < 1000; i++) {
+			tabelaTitulo[i] = String.valueOf(i);
+		}
+		
 		tabela = new JTable();
+		tabela.setFont(new Font("Arial", Font.PLAIN, 15));
+		tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tabela.setDefaultEditor(Object.class, null);
+		tabela.setModel(new DefaultTableModel(tabelaItens,tabelaTitulo) );
+		
+		// CENTRALIZAR OS ITENS DA TABELA
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+				
+		for(int i=0;i<tabelaItens.length;i++){
+	         tabela.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+	         tabela.getColumnModel().getColumn(i).setPreferredWidth(55);
+	        }
 		scrollTabela.setViewportView(tabela);
-		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabela.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabela.setBackground(Color.WHITE);
-		tabela.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"X0 = X", "Y0 = Y"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tabela.getColumnModel().getColumn(1).setMinWidth(18);
 		
 	}
 }
