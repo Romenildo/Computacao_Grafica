@@ -119,7 +119,7 @@ public class panelRetaDDA extends JPanel {
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(80, 27, 130, 348);
+		scrollTabela.setBounds(90, 15, 128, 348);
 		panelTabela.add(scrollTabela);
 		
 		//CRIANDO TAMANHO E TITULO DA COLUNA

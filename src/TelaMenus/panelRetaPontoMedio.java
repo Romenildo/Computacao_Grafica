@@ -15,6 +15,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class panelRetaPontoMedio extends JPanel {
@@ -39,6 +40,7 @@ public class panelRetaPontoMedio extends JPanel {
 		add(panelRetaPM);
 		panelRetaPM.setLayout(null);
 		
+		//Panel com os dados do checkbox e  x,y inicial, final
 		JPanel panelDesenhaReta = new JPanel();
 		panelDesenhaReta.setBounds(28, 22, 309, 167);
 		panelDesenhaReta.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -75,6 +77,7 @@ public class panelRetaPontoMedio extends JPanel {
 		btnDesenhar.setBounds(92, 124, 108, 33);
 		panelDesenhaReta.add(btnDesenhar);
 		
+		//Panel com os dados D Dx Dy
 		JPanel panelDadosReta = new JPanel();
 		panelDadosReta.setBounds(28, 192, 309, 80);
 		panelDadosReta.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -111,50 +114,7 @@ public class panelRetaPontoMedio extends JPanel {
 		panelDadosReta.add(campoDy);
 		campoDy.setColumns(10);
 		
-		JPanel panelTabela = new JPanel();
-		panelTabela.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panelTabela.setBounds(28, 352, 309, 381);
-		panelRetaPM.add(panelTabela);
-		panelTabela.setLayout(null);
-		
-		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(67, 27, 172, 348);
-		panelTabela.add(scrollTabela);
-		
-		tabela = new JTable();
-		scrollTabela.setViewportView(tabela);
-		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabela.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabela.setBackground(Color.WHITE);
-		tabela.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, "", null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-			},
-			new String[] {
-				"D", "X", "Y"
-			}
-		));
-		
+		//panel INCe e INCne
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBounds(28, 282, 309, 60);
@@ -180,7 +140,37 @@ public class panelRetaPontoMedio extends JPanel {
 		campoINCne.setBounds(168, 33, 58, 19);
 		panel.add(campoINCne);
 		campoINCne.setColumns(10);
-		tabela.getColumnModel().getColumn(1).setMinWidth(18);
+		
+		//Panel Tabela
+		JPanel panelTabela = new JPanel();
+		panelTabela.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panelTabela.setBounds(28, 352, 309, 381);
+		panelRetaPM.add(panelTabela);
+		panelTabela.setLayout(null);
+		
+		JScrollPane scrollTabela = new JScrollPane();
+		scrollTabela.setBounds(67, 27, 183, 348);
+		panelTabela.add(scrollTabela);
+		
+		//CRIANDO TAMANHO E TITULO DA COLUNA
+		Object [][]tabelaItens =new Object[1000][3];	
+		String []tabelaTitulo = {"D","X","Y"};
+
+		tabela = new JTable();
+		tabela.setFont(new Font("Arial", Font.PLAIN, 15));
+		tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tabela.setDefaultEditor(Object.class, null);
+		tabela.setModel(new DefaultTableModel(tabelaItens,tabelaTitulo) );
+				
+		// CENTRALIZAR OS ITENS DA TABELA
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );	
+		for(int i=0;i<3;i++){
+			tabela.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+			tabela.getColumnModel().getColumn(i).setPreferredWidth(55);
+		}
+		scrollTabela.setViewportView(tabela);
+
 	}
 	
 }
