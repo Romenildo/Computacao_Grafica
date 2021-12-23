@@ -8,7 +8,6 @@
  */
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 
 
@@ -27,6 +25,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
 	
+	//global
 	static int tamanhoTelaX;
 	static int tamanhoTelaY;
 
@@ -36,78 +35,79 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		this.janelaConfig = new JanelaConfig();
 		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");	
     	
-		//Adicionados
-			janelaDados.itemOP_limparTela.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					limparTela();
+		// --- AÇÕES DAS JANELAS ---
+		//limpar tela ao clicar na opcao
+		janelaDados.itemOP_limparTela.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparTela();
+			}
+		});
+			
+		//desenhar a circunferencia (EQUACAO EXPLICITA) ao clicar no botao desenhar
+		janelaDados.menuCircunferenciaEE.btnDesenhar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//pegar os valores dos campos graficos
+				int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
+				String [] stringSeparada =janelaDados.menuCircunferenciaEE.campoXY.getText().split(",");
+				if(stringSeparada.length == 2) {
+					posicoes[0] += Integer.parseInt(stringSeparada[0]);
+					posicoes[1] += Integer.parseInt(stringSeparada[1])*-1;
+				}else {
+					System.out.println("parametro errado somente x,y");
 				}
-			});
-			
-			
-			// AÇÕES DAS JANELAS DAS CIRCUNFERENCIAS
-			janelaDados.menuCircunferenciaEE.btnDesenhar.addActionListener(new ActionListener() {
+				int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
+				
+				//chama a funcao de desenho
+				desenhaCircunferenciaEE(raio,posicoes[0],posicoes[1]);
+			}
+		});
+		
+			//desenhar a circunferencia (METODO TRIGONOMETRICO) ao clicar no botao desenhar
+			janelaDados.menuCircunferenciaMT.btnDesenhar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					//pegar os valores dos campos graficos
 					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
-					String [] stringSeparada =janelaDados.menuCircunferenciaEE.campoXY.getText().split(",");
-					System.out.println(stringSeparada[0]+ " " + stringSeparada[1]);
+					String [] stringSeparada =janelaDados.menuCircunferenciaMT.campoXY.getText().split(",");
 					if(stringSeparada.length == 2) {
 						posicoes[0] += Integer.parseInt(stringSeparada[0]);
 						posicoes[1] += Integer.parseInt(stringSeparada[1])*-1;
 					}else {
 						System.out.println("parametro errado somente x,y");
 					}
-					int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
-					
-					System.out.println(stringSeparada[0]+ " " + stringSeparada[1]);
-					desenhaCircunferenciaEE(raio,posicoes[0],posicoes[1]);
-				}
-			});
-			
-			janelaDados.menuCircunferenciaMT.btnDesenhar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
-					String [] stringSeparada =janelaDados.menuCircunferenciaMT.campoXY.getText().split(",");
-					if(stringSeparada.length == 2) {
-						posicoes[0] += Integer.parseInt(stringSeparada[0]);
-						posicoes[1] += Integer.parseInt(stringSeparada[1]);
-					}else {
-						System.out.println("parametro errado somente x,y");
-					}
 					int raio = Integer.parseInt(janelaDados.menuCircunferenciaMT.campoRaio.getText());
 					
+					//chama a funcao de desenho
 					desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
 				}
 			});
 			
+			//desenhar a circunferencia (PONTO MEDIO) ao clicar no botao desenhar
 			janelaDados.menuCircunferenciaPM.btnDesenhar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					//pegar os valores dos campos graficos
 					int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
 					String [] stringSeparada =janelaDados.menuCircunferenciaPM.campoXY.getText().split(",");
 					if(stringSeparada.length == 2) {
 						posicoes[0] += Integer.parseInt(stringSeparada[0]);
-						posicoes[1] += Integer.parseInt(stringSeparada[1]);
+						posicoes[1] += Integer.parseInt(stringSeparada[1])*-1;
 					}else {
 						System.out.println("parametro errado somente x,y");
 					}
 					int raio = Integer.parseInt(janelaDados.menuCircunferenciaPM.campoRaio.getText());
 					
+					//chama a funcao de desenho
 					desenhaCircunferenciaPM(raio,posicoes[0],posicoes[1]);
 				}
 			});
 	}// fim do construtor
 
-	
-	
-	//----MOUSE EVENTS----
+	//	----MOUSE EVENTS----
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		janelaDados.menuCoordenadas.mousePosition.setText("Mouse clicado na coordenada : [" + e.getX() + "," + e.getY() + "]");
 		drawPixel(e.getX(),e.getY());
-		
-		desenhaCircunferenciaPM(100,e.getX(),e.getY());
+		//adicionar verificacao se checkbox desenhar ao clicar ta ativada
+		// colocar a fucnao de reta DDA e ponto medio aq
 	}
 	
 	@Override
@@ -120,6 +120,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		janelaDados.menuCoordenadas.mousePosition.setText("O Mouse está fora da janela de acesso");
 		janelaDados.menuCoordenadas.coordenadaMundo.setText("");
 		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText("");
+		janelaDados.menuCoordenadas.coordenadaCartesiana.setText("");
 	}
 	
 	@Override
@@ -134,26 +135,21 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	@Override
 	public void mousePressed(MouseEvent e) {
 		janelaDados.menuCoordenadas.mousePosition.setText("Mouse pressionado nas coordenadas : [" + e.getX() + "," + e.getY() + "]");
-		
 	}
-	
-	
+
 	//PRINCIPAL
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		//	---------CALCULO DAS COORDENADAS-------
 		
-		int variacaoX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
-		int variacaoY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
-		
-		//---------CALCULO DAS COORDENADAS-------
-		//Coordenadas do dispositivo
+		//COORDENADAS DO DISPOSITIVO (ENTRE 0 E TAMANHO DA TELA)
 		float dcx = Math.round((e.getX() + this.janelaConfig.valorDispositivoXmin));//300
         float dcy =  Math.round((e.getY() + this.janelaConfig.valorDispositivoYmin));// 300
 		janelaDados.menuCoordenadas.mousePosition.setText("Coordenadas do dispositivo : [" + dcx + ", " + dcy + "]");
 		
-		// Cálculo das transformações da coordenada normal para mundo:
-		float ndh = variacaoX;// 700
-		float ndv = variacaoY;// 700
+		// CALCULO TRANSFORMACAO COORDENADAS NORMAL PARA MUNDO
+		float ndh = tamanhoTelaX;// 700
+		float ndv = tamanhoTelaY;// 700
 		
 		float ndcx = (dcx / (ndh - 1));
         float ndcy = (dcy /(ndv - 1));
@@ -165,112 +161,79 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	
 		janelaDados.menuCoordenadas.coordenadaMundo.setText("coordenadas do mundo : [" + x + ", " + y + "]");
 		
-		//------------COORDENADAS NORMALIZADAS ENTRE -1 E 1---------------
-		dcx = Math.round(((variacaoX/2)-e.getX()))*-1;
-        dcy = Math.round(((variacaoY/2 )-e.getY()));
-
+		//COORDENADAS CARTESIANAS(CENTRALIZADA 0,0)
+		dcx = Math.round(((tamanhoTelaX/2)-e.getX()))*-1;
+        dcy = Math.round(((tamanhoTelaY/2 )-e.getY()));
+        
+       //COORDENADAS NORMALIZADAS (ENTRE -1 E 1)
 		ndcx = (dcx / (ndh - 1));
         ndcy = (dcy /(ndv - 1));
 		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.6f , %.6f]\n",ndcx,ndcy));
-		
-		//Cartesiana
 		janelaDados.menuCoordenadas.coordenadaCartesiana.setText("Coordenadas Cartesiana : [" + dcx + ", " + dcy + "]");
 		
-	}
+	}// --- fim das eventos de mouse
 	
-	
-			
-	//---FUNCOES DE DESENHO----
-	
-	//desenhar as coordenadas de um plano cartesiano
-	public void paint(Graphics g) {
-        super.paint(g);
-        this.setBackground(Color.white);
-        g.setColor(Color.LIGHT_GRAY);
-         
-        g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
-        g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
-    }
+	//		---FUNCOES DE DESENHO----
 	
 	public void limparTela() {
-			
 			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
 			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
     }
+
+	//  	--- METODOS DE DESENHO DAS CIRCUNFERENCIAS  2D ---
 	
-	//Desenha o pixel na tela grafica
-	public void drawPixel(int x, int y) {
-	     Graphics g = super.getGraphics();
-	     g.setColor(Color.RED);
-	     g.fillRect(x, y, 1, 1);
-	}
-	
-	//---Comecar a janela de coordenadas---
-	
-	public void start() {
-		addMouseListener(this); // listens for own mouse and
-		addMouseMotionListener(this); // mouse-motion events
-		setSize((this.janelaConfig.valorDispositivoXmax - this.janelaConfig.valorDispositivoXmin),
-				(this.janelaConfig.valorDispositivoYmax - this.janelaConfig.valorDispositivoYmin));
-		setUndecorated(false);
-		setVisible(true);
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
-    	tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
-	}// fim do método start
-	
-	//Metodos de desenho
-	//Circunferencia
-	//Equacao explicita
+	//CIRCUNFERENCIA EQUACAO EXPLICITA
 	public void desenhaCircunferenciaEE(int raio, int posicaoX, int posicaoY) {
-		
 		int tabelaLinha = 0;
 		int tabelaColuna = 1;
+		
 		int x ,y;
 		int raio2 = (raio* raio);
-		System.out.println(posicaoX + " " + posicaoY);
 		
 		for(x = -raio; x<= raio; x++) {
 			y = (int) Math.round(Math.sqrt(raio2 - x*x));
 			drawPixel(posicaoX + x, posicaoY + y);
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
 			drawPixel(posicaoX + x, posicaoY - y);
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
+			
+			//mostrar dados na tabela
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X0 = X
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);//Y0 = Y
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X1 = X
+			janelaDados.menuCircunferenciaEE.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);//Y1 = -Y
 			tabelaLinha = 0;
 			tabelaColuna++;
 		}	
 	}
-	//Equacao trigonometrica
+	
+	//CIRCUNFERENCIA COM METODO TRIGONOMETRICO
 		public void desenhaCircunferenciaMT(int raio, int posicaoX, int posicaoY) {
 			int tabelaLinha = 0;
 			int tabelaColuna = 1;
 			
 			int x ,y;
 			
-			for(int i = -raio; i<= raio; i++) {
-				y = (int) Math.round(raio * Math.cos(Math.toRadians(i)));
-				x = (int) Math.round(raio * Math.sin(Math.toRadians(i)));
-				desenhaCirculoDePontos(x,y,posicaoX,posicaoY);
-				adicionaItensTabelaPM(x, y, tabelaLinha,tabelaColuna++);
+			for(int teta = 0; teta<= 45; teta++) {
+				y = (int) Math.round(raio * Math.cos(Math.toRadians(teta)));
+				x = (int) Math.round(raio * Math.sin(Math.toRadians(teta)));
+				
+				ponto_circulo(x,y,posicaoX,posicaoY);
+				adicionaItensTabelaMT(x, y, tabelaLinha,tabelaColuna++);
 			}
 		}
 		
-	//Ponto medio
+	//CIRCUNFERENCIA DE PONTO MEDIO
 	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
+		int tabelaColuna = 1;
+		int tabelaLinha = 1;
+		
 		int x = 0;
 		int y = raio;
 		double d = 5/4 - raio;
-		int tabelaColuna = 1;
-		int tabelaLinha = 1;
 		
 		janelaDados.menuCircunferenciaPM.campoD.setText(String.valueOf(d));
 
 		drawPixel(x + posicaoX ,posicaoY - y);//desenhar o centro
-		desenhaCirculoDePontos(x, y,posicaoX, posicaoY);
+		ponto_circulo(x, y,posicaoX, posicaoY);
 		adicionaItensTabelaPM(x, y, tabelaLinha,tabelaColuna);
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(d, 0, tabelaColuna++);
 
@@ -282,13 +245,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				y--;
 			}
 			x++;
-			desenhaCirculoDePontos(x, y,posicaoX, posicaoY);
+			ponto_circulo(x, y,posicaoX, posicaoY);
 			adicionaItensTabelaPM(x, y, tabelaLinha,tabelaColuna);
 			janelaDados.menuCircunferenciaPM.tabela.setValueAt(d, 0, tabelaColuna++);
 		}
 	}
 	
-	public void desenhaCirculoDePontos(int x, int y, int posicaoX, int posicaoY) {
+	public void ponto_circulo(int x, int y, int posicaoX, int posicaoY) {
 		drawPixel(x + posicaoX, posicaoY + y);
 		drawPixel(y + posicaoX, posicaoY + x);
 		drawPixel(y + posicaoX, posicaoY - x);
@@ -298,7 +261,42 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		drawPixel(-y + posicaoX, posicaoY + x);
 		drawPixel(-x + posicaoX, posicaoY + y);
 	}
+	//--- FIM DOS METODOS DE DESENHO 2D ---
 	
+	
+	
+	public void drawPixel(int x, int y) {
+		//Desenha o pixel na tela grafica
+		Graphics g = super.getGraphics();
+		g.setColor(Color.BLUE);
+		g.fillRect(x, y, 1, 1);
+	}
+		
+	public void start() {
+		//inicia a classe
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		tamanhoTelaX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+    	tamanhoTelaY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+		setSize(tamanhoTelaX, tamanhoTelaY);
+		setUndecorated(false);
+		setVisible(true);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void paint(Graphics g) {
+		//desenha as linhas das coordenadas Cartesianas
+        super.paint(g);
+        this.setBackground(Color.white);
+        g.setColor(Color.LIGHT_GRAY);
+         
+        g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
+        g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
+    }
+	
+	
+	// MOSTRAR OS VALORES NA TABELA GRAFICA
 	public void adicionaItensTabelaPM(int x, int y, int tabelaLinha, int tabelaColuna) {
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);

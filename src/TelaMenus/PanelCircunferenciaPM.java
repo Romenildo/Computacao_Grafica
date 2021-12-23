@@ -1,3 +1,11 @@
+/** 
+ * Classe panel Circunferencia Ponto medio
+ * 
+ * @version: 2.0.0
+ * @authors Antonio Leomar Ferreira Soares,
+ * 		    Dennis Eduardo Santos da Silva,
+ * 		    Romenildo do Vale ferreira.
+ */
 package TelaMenus;
 
 import java.awt.Color;

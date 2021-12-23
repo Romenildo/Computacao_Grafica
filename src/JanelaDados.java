@@ -48,7 +48,7 @@ public class JanelaDados extends JFrame{
 	//--------ITENS DO MENU -----
 	//menu opcoes
 	JMenu menuOP = new JMenu("Opcoes");
-	JMenuItem itemOP_inicio = new JMenuItem("Início");
+	JMenuItem itemOP_inicio = new JMenuItem("Coordenadas");
 	JMenuItem itemOP_limparTela = new JMenuItem("Limpar tela");
 	JMenuItem itemOP_sair = new JMenuItem("Sair");
 	
@@ -63,13 +63,12 @@ public class JanelaDados extends JFrame{
 	
 	public JanelaDados(String titulo) {
 		super(titulo);
-		
-		
+
 		panelPrincipal.setBounds(100, 100, 366, 743);
 		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
 		add(panelPrincipal);
 		
-		//  ---ITENS DAS OPCOES DO MENU
+		//  ---ADICIONAR ITENS DAS OPCOES DO MENU
 		setJMenuBar(barra);
 		
 		//menu opcoes
@@ -85,58 +84,59 @@ public class JanelaDados extends JFrame{
 		menu2D.add(item2D_CircEE);
 		menu2D.add(item2D_CircMT);
 		menu2D.add(item2D_CircPM);
-		
-		
+
 		//   ---EVENTOS AO CLICAR NAS OPCOES DO MENU
-		
+		// tela das coordenadas
 		itemOP_inicio.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mudarPanelCoordenadas();
             }
         });
-		
-		
-		
+		//fechar o programa
 		itemOP_sair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		
-		
+		//tela Reta DDa
 		item2D_retaDDA.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mudarPanelRetaDDA();
             }
         });
+		//tela reta ponto medio
 		item2D_retaPM.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	mudarPanelRetaPontoMedio();
             }
         });
+		//tela circunferencia EE
 		item2D_CircEE.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	mudarPanelCircunferenciaEE();
             }
         });
+		//tela circunferencia MT
 		item2D_CircMT.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	mudarPanelCircunferenciaMT();
             }
         });
+		//tela circunferencia PM
 		item2D_CircPM.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	mudarPanelCircunferenciaPM();
             }
         });
 		// --- FIM DOS EVENTOS DO MENU
+		
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); 
 		setBounds(800, 0, 400, 800);
 		setVisible (true); 
-		setResizable(false);//pode redimensionar janela	
+		setResizable(false);
 		setLayout(null);
 	
-	}
+	}// fim construtor
 	
 	//   ----- FUNCOES PARA MUDAR O PANEL DA JANELA OPCOES
 	private void mudarPanelPrincipal(JPanel panelRecebido) {
@@ -179,5 +179,4 @@ public class JanelaDados extends JFrame{
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuCircunferenciaPM);
 	}
-	
 }

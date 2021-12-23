@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class panelRetaDDA extends JPanel {
@@ -118,49 +119,28 @@ public class panelRetaDDA extends JPanel {
 		panelTabela.setLayout(null);
 		
 		JScrollPane scrollTabela = new JScrollPane();
-		scrollTabela.setBounds(67, 27, 172, 348);
+		scrollTabela.setBounds(80, 27, 130, 348);
 		panelTabela.add(scrollTabela);
 		
+		//CRIANDO TAMANHO E TITULO DA COLUNA
+		Object [][]tabelaItens =new Object[1000][2];	
+		String []tabelaTitulo = {"X","Y"};
+
 		tabela = new JTable();
+		tabela.setFont(new Font("Arial", Font.PLAIN, 15));
+		tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		tabela.setDefaultEditor(Object.class, null);
+		tabela.setModel(new DefaultTableModel(tabelaItens,tabelaTitulo) );
+				
+		// CENTRALIZAR OS ITENS DA TABELA
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER );	
+		for(int i=0;i<2;i++){
+			tabela.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+			tabela.getColumnModel().getColumn(i).setPreferredWidth(55);
+		}
 		scrollTabela.setViewportView(tabela);
-		tabela.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabela.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tabela.setBackground(Color.WHITE);
-		tabela.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"", null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"X", "Y"
-			}
-		));
+						
 		
-		
-	}
+		}
 }

@@ -1,3 +1,11 @@
+/** 
+ * Classe panel Coordenadas
+ * 
+ * @version: 2.0.0
+ * @authors Antonio Leomar Ferreira Soares,
+ * 		    Dennis Eduardo Santos da Silva,
+ * 		    Romenildo do Vale ferreira.
+ */
 package TelaMenus;
 
 import java.awt.FlowLayout;
@@ -15,7 +23,6 @@ public class panelCoordenadas extends JPanel {
 	public JLabel coordenadaCartesiana;
 	
 	public panelCoordenadas() {
-		
 		setLayout(null);
 		setSize(400,800);
 		
@@ -25,8 +32,7 @@ public class panelCoordenadas extends JPanel {
 		panelCoordenadas.setLayout(new FlowLayout());
 		add(panelCoordenadas);
 		
-		
-		
+
 		mousePosition = new JLabel();
 		panelCoordenadas.add(mousePosition);
 
