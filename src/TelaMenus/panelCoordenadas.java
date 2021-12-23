@@ -12,6 +12,7 @@ public class panelCoordenadas extends JPanel {
 	public JLabel mousePosition;
 	public JLabel coordenadaMundo;
 	public JLabel coordenadaCentralizadaNormalizada;
+	public JLabel coordenadaCartesiana;
 	
 	public panelCoordenadas() {
 		
@@ -34,6 +35,9 @@ public class panelCoordenadas extends JPanel {
 		
 		coordenadaMundo = new JLabel();
 		panelCoordenadas.add(coordenadaMundo);
+		
+		coordenadaCartesiana = new JLabel();
+		panelCoordenadas.add(coordenadaCartesiana);
 	}
 	
 
