@@ -53,7 +53,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 					System.out.println(stringSeparada[0]+ " " + stringSeparada[1]);
 					if(stringSeparada.length == 2) {
 						posicoes[0] += Integer.parseInt(stringSeparada[0]);
-						posicoes[1] += Integer.parseInt(stringSeparada[1]);
+						posicoes[1] += Integer.parseInt(stringSeparada[1])*-1;
 					}else {
 						System.out.println("parametro errado somente x,y");
 					}
@@ -254,9 +254,11 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			for(int i = -raio; i<= raio; i++) {
 				y = (int) Math.round(raio * Math.cos(Math.toRadians(i)));
 				x = (int) Math.round(raio * Math.sin(Math.toRadians(i)));
-				desenhaCirculoDePontosMT(x,y,posicaoX,posicaoY, tabelaLinha, tabelaColuna++);
+				desenhaCirculoDePontos(x,y,posicaoX,posicaoY);
+				adicionaItensTabelaPM(x, y, tabelaLinha,tabelaColuna++);
 			}
 		}
+		
 	//Ponto medio
 	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
 		int x = 0;
@@ -315,31 +317,24 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);	 
 	}
-	public void desenhaCirculoDePontosMT(int x, int y, int posicaoX, int posicaoY, int tabelaLinha,int tabelaColuna) {
-		drawPixel(x + posicaoX, posicaoY + y);
+	public void adicionaItensTabelaMT(int x, int y, int tabelaLinha, int tabelaColuna) {
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		drawPixel(y + posicaoX, posicaoY + x);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		drawPixel(y + posicaoX, posicaoY - x);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		drawPixel(x + posicaoX, posicaoY - y);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		drawPixel(-x + posicaoX, posicaoY - y);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		drawPixel(-y + posicaoX, posicaoY - x);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		drawPixel(-y + posicaoX, posicaoY + x);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		drawPixel(-x + posicaoX, posicaoY + y);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);	 
 	}
-
+	
+	
 }
