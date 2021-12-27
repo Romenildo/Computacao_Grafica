@@ -67,6 +67,7 @@ public class JanelaDados extends JFrame{
 		panelPrincipal.setBounds(100, 100, 366, 743);
 		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
 		add(panelPrincipal);
+	
 		
 		//  ---ADICIONAR ITENS DAS OPCOES DO MENU
 		setJMenuBar(barra);
@@ -140,6 +141,9 @@ public class JanelaDados extends JFrame{
 	
 	//   ----- FUNCOES PARA MUDAR O PANEL DA JANELA OPCOES
 	private void mudarPanelPrincipal(JPanel panelRecebido) {
+		menuRetaDDA.checkBoxMouse.setSelected(false);
+		menuRetaPontoMedio.checkBoxMouse.setSelected(false);
+		
 		panelPrincipal.removeAll();
 		panelPrincipal.repaint();
 		
