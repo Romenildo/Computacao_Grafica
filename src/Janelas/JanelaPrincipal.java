@@ -205,13 +205,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		janelaDados.menuCoordenadas.coordenadaMundo.setText("coordenadas do mundo : [" + x + ", " + y + "]");
 		
 		//COORDENADAS CARTESIANAS(CENTRALIZADA 0,0)
-		dcx = Math.round(((tamanhoTelaX/2)-e.getX()))*-1;
-        dcy = Math.round(((tamanhoTelaY/2 )-e.getY()));
+		dcx = Math.round(((tamanhoTelaX/2)-e.getX())*2)*-1;
+        dcy = Math.round(((tamanhoTelaY/2 )-e.getY())*2);
         
        //COORDENADAS NORMALIZADAS (ENTRE -1 E 1)
 		ndcx = (dcx / (ndh - 1));
         ndcy = (dcy /(ndv - 1));
-		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.6f , %.6f]\n",ndcx,ndcy));
+		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.2f , %.2f]\n",ndcx,ndcy));
 		janelaDados.menuCoordenadas.coordenadaCartesiana.setText("Coordenadas Cartesiana : [" + dcx + ", " + dcy + "]");
 		
 	}// --- fim das eventos de mouse
