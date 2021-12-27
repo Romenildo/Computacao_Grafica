@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import Uteis.CalculoDesenho;
+import Uteis.Uteis;
 
 public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotionListener {
 
@@ -29,6 +30,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
 	CalculoDesenho calculoDesenho;
+	Uteis uteis;
 	int[] coordPoligono = new int[4];
 	int ponteiroCoordPoligono = 0;
 	
@@ -42,6 +44,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		this.janelaConfig = new JanelaConfig();
 		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");	
 		this.calculoDesenho = new CalculoDesenho(janelaDados,this);
+		this.uteis = new Uteis(this);
 		
 		// --- AÇÕES DAS JANELAS ---
 		//limpar tela ao clicar na opcao
@@ -54,7 +57,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		//desenhar a RETA DDA ao clicar no botao desenhar
 		janelaDados.menuRetaDDA.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int[] coordRetaDDA = pegarPosicoesReta(janelaDados.menuRetaDDA.campoX1Y1, janelaDados.menuRetaDDA.campoX2Y2);
+				int[] coordRetaDDA = uteis.pegarPosicoesReta(janelaDados.menuRetaDDA.campoX1Y1, janelaDados.menuRetaDDA.campoX2Y2);
 				//chama a funcao de desenho
 				calculoDesenho.desenharRetaDDA(coordRetaDDA);
 				
@@ -64,7 +67,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		//desenhar a RETA Ponto Medio ao clicar no botao desenhar
 		janelaDados.menuRetaPontoMedio.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int[] coordRetaPM = pegarPosicoesReta(janelaDados.menuRetaPontoMedio.campoX1Y1, janelaDados.menuRetaPontoMedio.campoX2Y2);
+				int[] coordRetaPM = uteis.pegarPosicoesReta(janelaDados.menuRetaPontoMedio.campoX1Y1, janelaDados.menuRetaPontoMedio.campoX2Y2);
 				//chama a funcao de desenho
 				calculoDesenho.desenharRetaPontoMedio(coordRetaPM);
 			}
@@ -73,7 +76,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		//desenhar a circunferencia (EQUACAO EXPLICITA) ao clicar no botao desenhar
 		janelaDados.menuCircunferenciaEE.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int posicoes[] = pegarPosicoes(janelaDados.menuCircunferenciaEE.campoXY);
+				int posicoes[] = uteis.pegarPosicoes(janelaDados.menuCircunferenciaEE.campoXY);
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
 				//chama a funcao de desenho
 				calculoDesenho.desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
@@ -84,7 +87,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			//desenhar a circunferencia (METODO TRIGONOMETRICO) ao clicar no botao desenhar
 		janelaDados.menuCircunferenciaMT.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int posicoes[] = pegarPosicoes(janelaDados.menuCircunferenciaMT.campoXY);
+				int posicoes[] = uteis.pegarPosicoes(janelaDados.menuCircunferenciaMT.campoXY);
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaMT.campoRaio.getText());
 					
 				//chama a funcao de desenho
@@ -95,7 +98,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			//desenhar a circunferencia (PONTO MEDIO) ao clicar no botao desenhar
 		janelaDados.menuCircunferenciaPM.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int posicoes[] = pegarPosicoes(janelaDados.menuCircunferenciaPM.campoXY);
+				int posicoes[] = uteis.pegarPosicoes(janelaDados.menuCircunferenciaPM.campoXY);
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaPM.campoRaio.getText());
 					
 				//chama a funcao de desenho
@@ -252,49 +255,5 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
         g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
         g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
     }
-	
-	public int[] pegarPosicoes(JTextField campo){
-		
-		int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
-		String [] stringSeparada =campo.getText().split(",");
-		
-		try {
-			if(stringSeparada.length == 2) {
-				posicoes[0] += Integer.parseInt(stringSeparada[0]);
-				posicoes[1] += Integer.parseInt(stringSeparada[1])*-1;
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog (null,"Parametro somente como : X,Y", "Atenção", JOptionPane.WARNING_MESSAGE);
-			posicoes[0]=0;
-			posicoes[1]=0;
-			return posicoes;
-		}
-		return posicoes;
-	}
-	
-	public int[] pegarPosicoesReta(JTextField campoInicial, JTextField campoFinal) {
-		int[] coordRetaDDA = {tamanhoTelaX/2, tamanhoTelaY/2,tamanhoTelaX/2, tamanhoTelaY/2};
-		
-		String [] stringSeparada =campoInicial.getText().split(",");
-		String [] stringSeparada2 = campoFinal.getText().split(",");
-		
-		try {
-			if(stringSeparada.length == 2 && stringSeparada2.length == 2) {
-				coordRetaDDA[0] += Integer.parseInt(stringSeparada[0]);
-				coordRetaDDA[1] += Integer.parseInt(stringSeparada[1])*-1;
-				coordRetaDDA[2] += Integer.parseInt(stringSeparada2[0]);
-				coordRetaDDA[3] += Integer.parseInt(stringSeparada2[1])*-1;
-			}
-			
-		} catch (Exception e2) {
-			JOptionPane.showMessageDialog (null,"Parametro somente como : X,Y", "Atenção", JOptionPane.WARNING_MESSAGE);
-			for(int i =0; i<4;i++) {
-				coordRetaDDA[i]=0;
-			}
-			return coordRetaDDA;
-		}
-		
-		return coordRetaDDA;
-	}
 	
 }
