@@ -24,6 +24,10 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaConfig janelaConfig;
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
+	int[] coordReta = new int[4]; 
+	int[] coordPoligono = new int[4];
+	int ponteiroCoordReta = 0; 
+	int ponteiroCoordPoligono = 0;
 	
 	//global
 	static int tamanhoTelaX;
@@ -42,23 +46,65 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				limparTela();
 			}
 		});
+		//desenhar a RETA DDA ao clicar no botao desenhar
+		janelaDados.menuRetaDDA.btnDesenhar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int[] coordRetaDDA = {tamanhoTelaX/2, tamanhoTelaY/2,tamanhoTelaX/2, tamanhoTelaY/2};
+				
+				String [] stringSeparada =janelaDados.menuRetaDDA.campoX1Y1.getText().split(",");
+				String [] stringSeparada2 = janelaDados.menuRetaDDA.campoX2Y2.getText().split(",");
+				
+				if(stringSeparada.length == 2 && stringSeparada2.length == 2) {
+					coordRetaDDA[0] += Integer.parseInt(stringSeparada[0]);
+					coordRetaDDA[1] += Integer.parseInt(stringSeparada[1])*-1;
+					coordRetaDDA[2] += Integer.parseInt(stringSeparada2[0]);
+					coordRetaDDA[3] += Integer.parseInt(stringSeparada2[1])*-1;
+				}else {
+					System.out.println("parametro errado somente x,y");
+				}
+				
+				//chama a funcao de desenho
+				desenharRetaDDA(coordRetaDDA);
+			}
+		});
+		//desenhar a RETA Ponto Medio ao clicar no botao desenhar
+				janelaDados.menuRetaPontoMedio.btnDesenhar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int[] coordRetaPM = {tamanhoTelaX/2, tamanhoTelaY/2,tamanhoTelaX/2, tamanhoTelaY/2};
+						
+						String [] stringSeparada =janelaDados.menuRetaPontoMedio.campoX1Y1.getText().split(",");
+						String [] stringSeparada2 = janelaDados.menuRetaPontoMedio.campoX2Y2.getText().split(",");
+						
+						if(stringSeparada.length == 2 && stringSeparada2.length == 2) {
+							coordRetaPM[0] += Integer.parseInt(stringSeparada[0]);
+							coordRetaPM[1] += Integer.parseInt(stringSeparada[1])*-1;
+							coordRetaPM[2] += Integer.parseInt(stringSeparada2[0]);
+							coordRetaPM[3] += Integer.parseInt(stringSeparada2[1])*-1;
+						}else {
+							System.out.println("parametro errado somente x,y");
+						}
+						
+						//chama a funcao de desenho
+						desenharRetaPontoMedio(coordRetaPM);
+					}
+				});
 			
 		//desenhar a circunferencia (EQUACAO EXPLICITA) ao clicar no botao desenhar
 		janelaDados.menuCircunferenciaEE.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//pegar os valores dos campos graficos
 				int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
-				String [] stringSeparada =janelaDados.menuCircunferenciaEE.campoXY.getText().split(",");
+				String [] stringSeparada =janelaDados.menuCircunferenciaMT.campoXY.getText().split(",");
 				if(stringSeparada.length == 2) {
 					posicoes[0] += Integer.parseInt(stringSeparada[0]);
 					posicoes[1] += Integer.parseInt(stringSeparada[1])*-1;
 				}else {
 					System.out.println("parametro errado somente x,y");
 				}
-				int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
+				int raio = Integer.parseInt(janelaDados.menuCircunferenciaMT.campoRaio.getText());
 				
 				//chama a funcao de desenho
-				desenhaCircunferenciaEE(raio,posicoes[0],posicoes[1]);
+				desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
 			}
 		});
 		
@@ -106,8 +152,35 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	public void mouseClicked(MouseEvent e) {
 		janelaDados.menuCoordenadas.mousePosition.setText("Mouse clicado na coordenada : [" + e.getX() + "," + e.getY() + "]");
 		drawPixel(e.getX(),e.getY());
-		//adicionar verificacao se checkbox desenhar ao clicar ta ativada
-		// colocar a fucnao de reta DDA e ponto medio aq
+		//Reta DDA
+		if(janelaDados.menuRetaDDA.checkBoxMouse.isSelected()) {
+			coordPoligono[ponteiroCoordPoligono] = e.getX();
+			coordPoligono[ponteiroCoordPoligono + 1] = e.getY();
+			ponteiroCoordPoligono = ponteiroCoordPoligono + 2;
+			
+			if ( ponteiroCoordPoligono == 4) {			
+				desenharRetaDDA(coordPoligono);
+				
+				coordPoligono[0] = coordPoligono[2];
+				coordPoligono[1] = coordPoligono[3];
+				ponteiroCoordPoligono = 2;
+			}
+		}
+		//Reta Ponto medio
+		if(janelaDados.menuRetaPontoMedio.checkBoxMouse.isSelected()) {
+			coordPoligono[ponteiroCoordPoligono] = e.getX();
+			coordPoligono[ponteiroCoordPoligono + 1] = e.getY();
+			ponteiroCoordPoligono = ponteiroCoordPoligono + 2;
+			
+			if ( ponteiroCoordPoligono == 4) {			
+				desenharRetaPontoMedio(coordPoligono);
+				
+				coordPoligono[0] = coordPoligono[2];
+				coordPoligono[1] = coordPoligono[3];
+				ponteiroCoordPoligono = 2;
+			}
+		}
+		
 	}
 	
 	@Override
@@ -179,6 +252,108 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
 			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
     }
+	// --- RETAS ---
+	// RETA DDA
+		public void desenharRetaDDA(int[] coordenadas) {
+			
+			int tabelaLinha=0;
+			int tabelaColuna=0;
+			
+			double length = Math.max(Math.abs(coordenadas[2] - coordenadas[0]), Math.abs(coordenadas[3] - coordenadas[1]));
+			janelaDados.menuRetaDDA.campoLength.setText(String.valueOf(length));
+			
+			double xInc = (coordenadas[2] - coordenadas[0]) / length;
+			double yInc = (coordenadas[3] - coordenadas[1]) / length;
+			janelaDados.menuRetaDDA.campoXinc.setText(String.valueOf(xInc));
+			janelaDados.menuRetaDDA.campoYinc.setText(String.valueOf(yInc));
+			
+			double x = Math.round(coordenadas[0]);
+			double y = Math.round(coordenadas[1]);
+			drawPixel((int) x, (int) y);
+			adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
+			
+			if (coordenadas[2] > coordenadas[0]) {
+				while (x < coordenadas[2]) {
+					x = x + xInc;
+					y = y + yInc;
+					drawPixel((int) x, (int) y);
+					adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
+				}
+			} else if (coordenadas[2] < coordenadas[0]) {
+				while (x > coordenadas[2]) {
+					x = x + xInc;
+					y = y + yInc;
+					drawPixel((int) x, (int) y);
+					adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
+				}
+			}
+		}
+		
+	// RETA PONTO MÉDIO
+		public void desenharRetaPontoMedio(int[] coordenadas) {
+			int tabelaLinha = 0;
+			int tabelaColuna = 0;
+			
+			int dx = Math.abs(coordenadas[2] - coordenadas[0]);
+			int dy = Math.abs(coordenadas[3] - coordenadas[1]);// 1º octante
+			janelaDados.menuRetaPontoMedio.campoDx.setText(String.valueOf(dx));
+			janelaDados.menuRetaPontoMedio.campoDy.setText(String.valueOf(dy));
+			
+			int d = (2 * dy) - dx;
+			janelaDados.menuRetaPontoMedio.campoD.setText(String.valueOf(d));
+
+			// Incremento:
+			int incE = 2 * dy;
+			int incNE = 2 * (dy - dx);
+			janelaDados.menuRetaPontoMedio.campoINCe.setText(String.valueOf(incE));
+			janelaDados.menuRetaPontoMedio.campoINCne.setText(String.valueOf(incNE));
+
+			// Ponto inicial:
+			int x = coordenadas[0];
+			int y = coordenadas[1];
+			drawPixel(x, y);
+			adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
+
+			// Escolhendo próximos pontos:
+			if (coordenadas[2] > coordenadas[0]) {
+				while (x < coordenadas[2]) {
+					if (d <= 0) {
+						// Escolhido ponto E (inferior)
+						d = d + incE;
+						x = x + 1;
+						drawPixel(x, y);
+						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
+
+					} else {
+						// Escolhido Ponto NE (superior)
+						d = d + incNE;
+						x = x + 1;
+						y = y - 1; // usado negativo, pois as coord Y da tela crescem para baixo
+						drawPixel(x, y);
+						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
+					}
+				}
+			} else if (coordenadas[2] < coordenadas[0]) {
+				while (x > coordenadas[2]) {
+					if (d <= 0) {
+						// Escolhido ponto E (inferior)
+						d = d + incE;
+						x = x - 1;
+						drawPixel(x, y);
+						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
+
+					} else {
+						// Escolhido Ponto NE (superior)
+						d = d + incNE;
+						x = x - 1;
+						y = y + 1;  
+						drawPixel(x, y);
+						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
+					}
+				}
+			}
+
+		}// fim da desenharRetaPontoMedio
 
 	//  	--- METODOS DE DESENHO DAS CIRCUNFERENCIAS  2D ---
 	
@@ -297,6 +472,18 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	
 	
 	// MOSTRAR OS VALORES NA TABELA GRAFICA
+	public void adicionaItensTabelaRetaDDA(int x, int y, int tabelaLinha, int tabelaColuna) {
+		janelaDados.menuRetaDDA.tabela.setValueAt(x, tabelaLinha, tabelaColuna++);
+		janelaDados.menuRetaDDA.tabela.setValueAt(y, tabelaLinha, tabelaColuna);
+		 
+	}
+	
+	public void adicionaItensTabelaRetaPM(int d, int x, int y, int tabelaLinha, int tabelaColuna) {
+		janelaDados.menuRetaPontoMedio.tabela.setValueAt(d, tabelaLinha, tabelaColuna++);
+		janelaDados.menuRetaPontoMedio.tabela.setValueAt(x, tabelaLinha, tabelaColuna++);
+		janelaDados.menuRetaPontoMedio.tabela.setValueAt(y, tabelaLinha, tabelaColuna);
+		 
+	}
 	public void adicionaItensTabelaPM(int x, int y, int tabelaLinha, int tabelaColuna) {
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
 		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);

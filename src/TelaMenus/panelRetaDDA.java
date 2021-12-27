@@ -22,12 +22,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class panelRetaDDA extends JPanel {
 	
-	private JTextField campoX1Y1;
-	private JTextField campoX2Y2;
-	private JTextField campoLenght;
-	private JTextField campoXinc;
-	private JTextField campoYinc;
-	private JTable tabela;
+	public JTextField campoX1Y1;
+	public JTextField campoX2Y2;
+	public JTextField campoLength;
+	public JTextField campoXinc;
+	public JTextField campoYinc;
+	public JTable tabela;
+	public JButton btnDesenhar;
+	public JCheckBox checkBoxMouse;
 
 	
 	public panelRetaDDA() {
@@ -46,10 +48,10 @@ public class panelRetaDDA extends JPanel {
 		panelRetaDDA.add(panelDesenhaReta);
 		panelDesenhaReta.setLayout(null);
 		
-		JCheckBox checkBox = new JCheckBox("Desenhar ao clicar");
-		checkBox.setFont(new Font("Arial", Font.BOLD, 13));
-		checkBox.setBounds(75, 17, 145, 21);
-		panelDesenhaReta.add(checkBox);
+		checkBoxMouse = new JCheckBox("Desenhar ao clicar");
+		checkBoxMouse.setFont(new Font("Arial", Font.BOLD, 13));
+		checkBoxMouse.setBounds(75, 17, 145, 21);
+		panelDesenhaReta.add(checkBoxMouse);
 		
 		JLabel labelX1Y1 = new JLabel("X1, Y1");
 		labelX1Y1.setFont(new Font("Arial", Font.BOLD, 13));
@@ -71,7 +73,7 @@ public class panelRetaDDA extends JPanel {
 		panelDesenhaReta.add(campoX2Y2);
 		campoX2Y2.setColumns(10);
 		
-		JButton btnDesenhar = new JButton("Desenhar");
+		btnDesenhar = new JButton("Desenhar");
 		btnDesenhar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnDesenhar.setBounds(92, 124, 108, 33);
 		panelDesenhaReta.add(btnDesenhar);
@@ -97,10 +99,10 @@ public class panelRetaDDA extends JPanel {
 		labelYinc.setBounds(99, 68, 45, 13);
 		panelDadosReta.add(labelYinc);
 		
-		campoLenght = new JTextField();
-		campoLenght.setBounds(139, 18, 52, 19);
-		panelDadosReta.add(campoLenght);
-		campoLenght.setColumns(10);
+		campoLength = new JTextField();
+		campoLength.setBounds(139, 18, 52, 19);
+		panelDadosReta.add(campoLength);
+		campoLength.setColumns(10);
 		
 		campoXinc = new JTextField();
 		campoXinc.setBounds(139, 42, 52, 19);

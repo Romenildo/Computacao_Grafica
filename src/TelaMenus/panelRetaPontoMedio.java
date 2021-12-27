@@ -20,14 +20,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class panelRetaPontoMedio extends JPanel {
 	
-	private JTextField campoX1Y1;
-	private JTextField campoX2Y2;
-	private JTextField campoD;
-	private JTextField campoDx;
-	private JTextField campoDy;
-	private JTable tabela;
-	private JTextField campoINCe;
-	private JTextField campoINCne;
+	public JTextField campoX1Y1;
+	public JTextField campoX2Y2;
+	public JTextField campoD;
+	public JTextField campoDx;
+	public JTextField campoDy;
+	public JTable tabela;
+	public JTextField campoINCe;
+	public JTextField campoINCne;
+	public JCheckBox checkBoxMouse;
+	public JButton btnDesenhar;
 	
 	
 	public panelRetaPontoMedio() {
@@ -47,10 +49,10 @@ public class panelRetaPontoMedio extends JPanel {
 		panelRetaPM.add(panelDesenhaReta);
 		panelDesenhaReta.setLayout(null);
 		
-		JCheckBox checkBox = new JCheckBox("Desenhar ao clicar");
-		checkBox.setFont(new Font("Arial", Font.BOLD, 13));
-		checkBox.setBounds(75, 17, 145, 21);
-		panelDesenhaReta.add(checkBox);
+		checkBoxMouse = new JCheckBox("Desenhar ao clicar");
+		checkBoxMouse.setFont(new Font("Arial", Font.BOLD, 13));
+		checkBoxMouse.setBounds(75, 17, 145, 21);
+		panelDesenhaReta.add(checkBoxMouse);
 		
 		JLabel labelX1Y1 = new JLabel("X1, Y1");
 		labelX1Y1.setFont(new Font("Arial", Font.BOLD, 13));
@@ -72,7 +74,7 @@ public class panelRetaPontoMedio extends JPanel {
 		panelDesenhaReta.add(campoX2Y2);
 		campoX2Y2.setColumns(10);
 		
-		JButton btnDesenhar = new JButton("Desenhar");
+		btnDesenhar = new JButton("Desenhar");
 		btnDesenhar.setFont(new Font("Arial", Font.BOLD, 12));
 		btnDesenhar.setBounds(92, 124, 108, 33);
 		panelDesenhaReta.add(btnDesenhar);

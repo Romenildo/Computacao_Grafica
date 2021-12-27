@@ -63,7 +63,7 @@ public class JanelaDados extends JFrame{
 	
 	public JanelaDados(String titulo) {
 		super(titulo);
-
+		
 		panelPrincipal.setBounds(100, 100, 366, 743);
 		panelPrincipal.setBorder(new LineBorder(new Color(192, 192, 192), 6, true));
 		add(panelPrincipal);
