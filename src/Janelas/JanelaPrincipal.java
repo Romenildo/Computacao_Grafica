@@ -1,3 +1,5 @@
+package Janelas;
+
 /** 
  * Classe Janela principal
  * 
@@ -19,23 +21,28 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import Uteis.CalculoDesenho;
+
 public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotionListener {
 
 	JanelaConfig janelaConfig;
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
+	CalculoDesenho calculoDesenho;
 	int[] coordPoligono = new int[4];
 	int ponteiroCoordPoligono = 0;
 	
 	//global
-	static int tamanhoTelaX;
-	static int tamanhoTelaY;
+	public static int tamanhoTelaX;
+	public static int tamanhoTelaY;
 
 	public JanelaPrincipal(String titulo) {
 		super(titulo);
 		
 		this.janelaConfig = new JanelaConfig();
 		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");	
+		this.calculoDesenho = new CalculoDesenho(janelaDados,this);
+		
 		// --- AÇÕES DAS JANELAS ---
 		//limpar tela ao clicar na opcao
 		janelaDados.itemOP_limparTela.addActionListener(new ActionListener() {
@@ -49,7 +56,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			public void actionPerformed(ActionEvent e) {
 				int[] coordRetaDDA = pegarPosicoesReta(janelaDados.menuRetaDDA.campoX1Y1, janelaDados.menuRetaDDA.campoX2Y2);
 				//chama a funcao de desenho
-				desenharRetaDDA(coordRetaDDA);
+				calculoDesenho.desenharRetaDDA(coordRetaDDA);
 				
 			}
 		});
@@ -59,7 +66,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			public void actionPerformed(ActionEvent e) {
 				int[] coordRetaPM = pegarPosicoesReta(janelaDados.menuRetaPontoMedio.campoX1Y1, janelaDados.menuRetaPontoMedio.campoX2Y2);
 				//chama a funcao de desenho
-				desenharRetaPontoMedio(coordRetaPM);
+				calculoDesenho.desenharRetaPontoMedio(coordRetaPM);
 			}
 		});
 			
@@ -69,7 +76,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				int posicoes[] = pegarPosicoes(janelaDados.menuCircunferenciaEE.campoXY);
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
 				//chama a funcao de desenho
-				desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
+				calculoDesenho.desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
 			}
 		});
 		
@@ -81,7 +88,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaMT.campoRaio.getText());
 					
 				//chama a funcao de desenho
-				desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
+				calculoDesenho.desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
 			}
 		});
 			
@@ -92,7 +99,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaPM.campoRaio.getText());
 					
 				//chama a funcao de desenho
-				desenhaCircunferenciaPM(raio,posicoes[0],posicoes[1]);
+				calculoDesenho.desenhaCircunferenciaPM(raio,posicoes[0],posicoes[1]);
 			}
 		});
 		
@@ -115,7 +122,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				
 				janelaDados.menuRetaDDA.campoX2Y2.setText((coordPoligono[2]-tamanhoTelaX/2)+","+ ((coordPoligono[3]-tamanhoTelaY/2)*(-1)));
 				
-				desenharRetaDDA(coordPoligono);
+				calculoDesenho.desenharRetaDDA(coordPoligono);
 				
 				coordPoligono[0] = coordPoligono[2];
 				coordPoligono[1] = coordPoligono[3];
@@ -133,7 +140,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			if ( ponteiroCoordPoligono == 4) {	
 				janelaDados.menuRetaPontoMedio.campoX2Y2.setText((coordPoligono[1]-tamanhoTelaX/2)+","+ (coordPoligono[3]+tamanhoTelaY/2));
 				
-				desenharRetaPontoMedio(coordPoligono);
+				calculoDesenho.desenharRetaPontoMedio(coordPoligono);
 				
 				coordPoligono[0] = coordPoligono[2];
 				coordPoligono[1] = coordPoligono[3];
@@ -206,8 +213,6 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		
 	}// --- fim das eventos de mouse
 	
-	//		---FUNCOES DE DESENHO----
-	
 	public void limparTela() {
 			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
 			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
@@ -217,193 +222,6 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			}
 			ponteiroCoordPoligono = 0;
     }
-	// --- RETAS ---
-	// RETA DDA
-		public void desenharRetaDDA(int[] coordenadas) {
-			
-			int tabelaLinha=0;
-			int tabelaColuna=0;
-			
-			double length = Math.max(Math.abs(coordenadas[2] - coordenadas[0]), Math.abs(coordenadas[3] - coordenadas[1]));
-			janelaDados.menuRetaDDA.campoLength.setText(String.valueOf(length));
-			
-			double xInc = (coordenadas[2] - coordenadas[0]) / length;
-			double yInc = (coordenadas[3] - coordenadas[1]) / length;
-			janelaDados.menuRetaDDA.campoXinc.setText(String.format("%.4f", xInc));
-			janelaDados.menuRetaDDA.campoYinc.setText(String.format("%.4f", yInc*(-1)));
-			
-			double x = Math.round(coordenadas[0]);
-			double y = Math.round(coordenadas[1]);
-			drawPixel((int) x, (int) y);
-			adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
-			
-			if (coordenadas[2] > coordenadas[0]) {
-				while (x < coordenadas[2]) {
-					x = x + xInc;
-					y = y + yInc;
-					drawPixel((int) x, (int) y);
-					adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
-				}
-			} else if (coordenadas[2] < coordenadas[0]) {
-				while (x > coordenadas[2]) {
-					x = x + xInc;
-					y = y + yInc;
-					drawPixel((int) x, (int) y);
-					adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
-				}
-			}
-		}
-		
-	// RETA PONTO MÉDIO
-		public void desenharRetaPontoMedio(int[] coordenadas) {
-			int tabelaLinha = 0;
-			int tabelaColuna = 0;
-			
-			int dx = Math.abs(coordenadas[2] - coordenadas[0]);
-			int dy = Math.abs(coordenadas[3] - coordenadas[1]);// 1º octante
-			janelaDados.menuRetaPontoMedio.campoDx.setText(String.valueOf(dx));
-			janelaDados.menuRetaPontoMedio.campoDy.setText(String.valueOf(dy));
-			
-			int d = (2 * dy) - dx;
-			janelaDados.menuRetaPontoMedio.campoD.setText(String.valueOf(d));
-
-			// Incremento:
-			int incE = 2 * dy;
-			int incNE = 2 * (dy - dx);
-			janelaDados.menuRetaPontoMedio.campoINCe.setText(String.valueOf(incE));
-			janelaDados.menuRetaPontoMedio.campoINCne.setText(String.valueOf(incNE));
-
-			// Ponto inicial:
-			int x = coordenadas[0];
-			int y = coordenadas[1];
-			drawPixel(x, y);
-			adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
-
-			// Escolhendo próximos pontos:
-			if (coordenadas[2] > coordenadas[0]) {
-				while (x < coordenadas[2]) {
-					if (d <= 0) {
-						// Escolhido ponto E (inferior)
-						d = d + incE;
-						x = x + 1;
-						drawPixel(x, y);
-						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
-
-					} else {
-						// Escolhido Ponto NE (superior)
-						d = d + incNE;
-						x = x + 1;
-						y = y - 1; // usado negativo, pois as coord Y da tela crescem para baixo
-						drawPixel(x, y);
-						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
-					}
-				}
-			} else if (coordenadas[2] < coordenadas[0]) {
-				while (x > coordenadas[2]) {
-					if (d <= 0) {
-						// Escolhido ponto E (inferior)
-						d = d + incE;
-						x = x - 1;
-						drawPixel(x, y);
-						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
-
-					} else {
-						// Escolhido Ponto NE (superior)
-						d = d + incNE;
-						x = x - 1;
-						y = y + 1;  
-						drawPixel(x, y);
-						adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
-					}
-				}
-			}
-
-		}// fim da desenharRetaPontoMedio
-
-	//  	--- METODOS DE DESENHO DAS CIRCUNFERENCIAS  2D ---
-	
-	//CIRCUNFERENCIA EQUACAO EXPLICITA
-	public void desenhaCircunferenciaEE(int raio, int posicaoX, int posicaoY) {
-		int tabelaLinha = 0;
-		int tabelaColuna = 1;
-		
-		int x ,y;
-		int raio2 = (raio* raio);
-		
-		for(x = -raio; x<= raio; x++) {
-			y = (int) Math.round(Math.sqrt(raio2 - x*x));
-			drawPixel(posicaoX + x, posicaoY + y);
-			drawPixel(posicaoX + x, posicaoY - y);
-			
-			//mostrar dados na tabela
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X0 = X
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);//Y0 = Y
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X1 = X
-			janelaDados.menuCircunferenciaEE.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);//Y1 = -Y
-			tabelaLinha = 0;
-			tabelaColuna++;
-		}	
-	}
-	
-	//CIRCUNFERENCIA COM METODO TRIGONOMETRICO
-		public void desenhaCircunferenciaMT(int raio, int posicaoX, int posicaoY) {
-			int tabelaLinha = 0;
-			int tabelaColuna = 1;
-			
-			int x ,y;
-			
-			for(int teta = 0; teta<= 45; teta++) {
-				y = (int) Math.round(raio * Math.cos(Math.toRadians(teta)));
-				x = (int) Math.round(raio * Math.sin(Math.toRadians(teta)));
-				
-				ponto_circulo(x,y,posicaoX,posicaoY);
-				adicionaItensTabelaMT(x, y, tabelaLinha,tabelaColuna++);
-			}
-		}
-		
-	//CIRCUNFERENCIA DE PONTO MEDIO
-	public void desenhaCircunferenciaPM(int raio, int posicaoX, int posicaoY) {
-		int tabelaColuna = 1;
-		int tabelaLinha = 1;
-		
-		int x = 0;
-		int y = raio;
-		double d = 5/4 - raio;
-		
-		janelaDados.menuCircunferenciaPM.campoD.setText(String.valueOf(d));
-
-		drawPixel(x + posicaoX ,posicaoY - y);//desenhar o centro
-		ponto_circulo(x, y,posicaoX, posicaoY);
-		adicionaItensTabelaPM(x, y, tabelaLinha,tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(d, 0, tabelaColuna++);
-
-		while(y > x) {
-			if(d<0) {//escolha E
-				d += 2 * x + 3;
-			}else {//escolhe SE
-				d += 2 * (x - y) + 5;
-				y--;
-			}
-			x++;
-			ponto_circulo(x, y,posicaoX, posicaoY);
-			adicionaItensTabelaPM(x, y, tabelaLinha,tabelaColuna);
-			janelaDados.menuCircunferenciaPM.tabela.setValueAt(d, 0, tabelaColuna++);
-		}
-	}
-	
-	public void ponto_circulo(int x, int y, int posicaoX, int posicaoY) {
-		drawPixel(x + posicaoX, posicaoY + y);
-		drawPixel(y + posicaoX, posicaoY + x);
-		drawPixel(y + posicaoX, posicaoY - x);
-		drawPixel(x + posicaoX, posicaoY - y);
-		drawPixel(-x + posicaoX, posicaoY - y);
-		drawPixel(-y + posicaoX, posicaoY - x);
-		drawPixel(-y + posicaoX, posicaoY + x);
-		drawPixel(-x + posicaoX, posicaoY + y);
-	}
-	//--- FIM DOS METODOS DE DESENHO 2D ---
-	
-	
 	
 	public void drawPixel(int x, int y) {
 		//Desenha o pixel na tela grafica
@@ -434,57 +252,6 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
         g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
         g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
     }
-	
-	
-	// MOSTRAR OS VALORES NA TABELA GRAFICA
-	public void adicionaItensTabelaRetaDDA(int x, int y, int tabelaLinha, int tabelaColuna) {
-		janelaDados.menuRetaDDA.tabela.setValueAt(x-tamanhoTelaX/2, tabelaLinha, tabelaColuna++);
-		janelaDados.menuRetaDDA.tabela.setValueAt((y-tamanhoTelaY/2)*(-1), tabelaLinha, tabelaColuna);
-		 
-	}
-	
-	public void adicionaItensTabelaRetaPM(int d, int x, int y, int tabelaLinha, int tabelaColuna) {
-		janelaDados.menuRetaPontoMedio.tabela.setValueAt(d, tabelaLinha, tabelaColuna++);
-		janelaDados.menuRetaPontoMedio.tabela.setValueAt(x, tabelaLinha, tabelaColuna++);
-		janelaDados.menuRetaPontoMedio.tabela.setValueAt(y, tabelaLinha, tabelaColuna);
-		 
-	}
-	public void adicionaItensTabelaPM(int x, int y, int tabelaLinha, int tabelaColuna) {
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaPM.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);	 
-	}
-	public void adicionaItensTabelaMT(int x, int y, int tabelaLinha, int tabelaColuna) {
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
-		janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);	 
-	}
 	
 	public int[] pegarPosicoes(JTextField campo){
 		

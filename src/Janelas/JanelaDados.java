@@ -1,3 +1,5 @@
+package Janelas;
+
 /** 
  * Classe Janela Dados
  * 
@@ -36,11 +38,11 @@ public class JanelaDados extends JFrame{
 	
 	//DECLARACAO DOS PANELs
 	panelCoordenadas menuCoordenadas = new panelCoordenadas();
-	panelRetaDDA menuRetaDDA = new panelRetaDDA();
-	panelRetaPontoMedio menuRetaPontoMedio = new panelRetaPontoMedio();
-	PanelCircunferenciaEE menuCircunferenciaEE = new PanelCircunferenciaEE();
-	PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
-	PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
+	public panelRetaDDA menuRetaDDA = new panelRetaDDA();
+	public panelRetaPontoMedio menuRetaPontoMedio = new panelRetaPontoMedio();
+	public PanelCircunferenciaEE menuCircunferenciaEE = new PanelCircunferenciaEE();
+	public PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
+	public PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
 	
 	//DECLARACAO DOS MENUS
 	JMenuBar barra = new JMenuBar();

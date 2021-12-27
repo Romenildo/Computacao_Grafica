@@ -9,6 +9,8 @@
 
 import javax.swing.JFrame;
 
+import Janelas.JanelaConfig;
+
 public class Main {
 	
 public static void main(String[] args) {		

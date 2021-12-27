@@ -1,3 +1,5 @@
+package Janelas;
+
 /** 
  * Classe Janela Config
  * 
