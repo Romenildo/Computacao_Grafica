@@ -157,8 +157,11 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			coordPoligono[ponteiroCoordPoligono] = e.getX();
 			coordPoligono[ponteiroCoordPoligono + 1] = e.getY();
 			ponteiroCoordPoligono = ponteiroCoordPoligono + 2;
-			
-			if ( ponteiroCoordPoligono == 4) {			
+			janelaDados.menuRetaDDA.campoX1Y1.setText((coordPoligono[0]-tamanhoTelaX/2) +","+ ((coordPoligono[1]-tamanhoTelaY/2)*(-1)));
+			if ( ponteiroCoordPoligono == 4) {	
+				
+				janelaDados.menuRetaDDA.campoX2Y2.setText((coordPoligono[2]-tamanhoTelaX/2)+","+ ((coordPoligono[3]-tamanhoTelaY/2)*(-1)));
+				
 				desenharRetaDDA(coordPoligono);
 				
 				coordPoligono[0] = coordPoligono[2];
@@ -172,7 +175,10 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			coordPoligono[ponteiroCoordPoligono + 1] = e.getY();
 			ponteiroCoordPoligono = ponteiroCoordPoligono + 2;
 			
-			if ( ponteiroCoordPoligono == 4) {			
+			janelaDados.menuRetaPontoMedio.campoX1Y1.setText((coordPoligono[0]-tamanhoTelaX/2) +","+ (coordPoligono[2]+tamanhoTelaY/2));
+			if ( ponteiroCoordPoligono == 4) {	
+				janelaDados.menuRetaPontoMedio.campoX2Y2.setText((coordPoligono[1]-tamanhoTelaX/2)+","+ (coordPoligono[3]+tamanhoTelaY/2));
+				
 				desenharRetaPontoMedio(coordPoligono);
 				
 				coordPoligono[0] = coordPoligono[2];
@@ -264,8 +270,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			
 			double xInc = (coordenadas[2] - coordenadas[0]) / length;
 			double yInc = (coordenadas[3] - coordenadas[1]) / length;
-			janelaDados.menuRetaDDA.campoXinc.setText(String.valueOf(xInc));
-			janelaDados.menuRetaDDA.campoYinc.setText(String.valueOf(yInc));
+			janelaDados.menuRetaDDA.campoXinc.setText(String.format("%.4f", xInc));
+			janelaDados.menuRetaDDA.campoYinc.setText(String.format("%.4f", yInc*(-1)));
 			
 			double x = Math.round(coordenadas[0]);
 			double y = Math.round(coordenadas[1]);
@@ -473,8 +479,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	
 	// MOSTRAR OS VALORES NA TABELA GRAFICA
 	public void adicionaItensTabelaRetaDDA(int x, int y, int tabelaLinha, int tabelaColuna) {
-		janelaDados.menuRetaDDA.tabela.setValueAt(x, tabelaLinha, tabelaColuna++);
-		janelaDados.menuRetaDDA.tabela.setValueAt(y, tabelaLinha, tabelaColuna);
+		janelaDados.menuRetaDDA.tabela.setValueAt(x-tamanhoTelaX/2, tabelaLinha, tabelaColuna++);
+		janelaDados.menuRetaDDA.tabela.setValueAt((y-tamanhoTelaY/2)*(-1), tabelaLinha, tabelaColuna);
 		 
 	}
 	
