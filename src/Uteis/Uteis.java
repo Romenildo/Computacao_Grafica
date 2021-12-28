@@ -6,21 +6,14 @@ import javax.swing.JTextField;
 import Janelas.JanelaPrincipal;
 
 public class Uteis {
-	
 	JanelaPrincipal janelaPrincipal;
-	
-	int tamanhoTelaX;
-	int tamanhoTelaY;
-	
 	public Uteis(JanelaPrincipal janelaPrincipal) {
 		this.janelaPrincipal = janelaPrincipal;
-		tamanhoTelaX = janelaPrincipal.tamanhoTelaX;
-		tamanhoTelaY = janelaPrincipal.tamanhoTelaX;
 	}
 	
 	public int[] pegarPosicoes(JTextField campo){
 		
-		int posicoes[] = {tamanhoTelaX/2, tamanhoTelaY/2};
+		int posicoes[] = {janelaPrincipal.tamanhoTelaX/2, janelaPrincipal.tamanhoTelaY/2};
 		String [] stringSeparada =campo.getText().split(",");
 		
 		try {
@@ -38,7 +31,7 @@ public class Uteis {
 	}
 	
 	public int[] pegarPosicoesReta(JTextField campoInicial, JTextField campoFinal) {
-		int[] coordRetaDDA = {tamanhoTelaX/2, tamanhoTelaY/2,tamanhoTelaX/2, tamanhoTelaY/2};
+		int[] coordRetaDDA = {janelaPrincipal.tamanhoTelaX/2, janelaPrincipal.tamanhoTelaY/2,janelaPrincipal.tamanhoTelaX/2, janelaPrincipal.tamanhoTelaY/2};
 		
 		String [] stringSeparada =campoInicial.getText().split(",");
 		String [] stringSeparada2 = campoFinal.getText().split(",");

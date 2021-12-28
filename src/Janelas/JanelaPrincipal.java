@@ -78,8 +78,9 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			public void actionPerformed(ActionEvent e) {
 				int posicoes[] = uteis.pegarPosicoes(janelaDados.menuCircunferenciaEE.campoXY);
 				int raio = Integer.parseInt(janelaDados.menuCircunferenciaEE.campoRaio.getText());
+				
 				//chama a funcao de desenho
-				calculoDesenho.desenhaCircunferenciaMT(raio,posicoes[0],posicoes[1]);
+				calculoDesenho.desenhaCircunferenciaEE(raio,posicoes[0],posicoes[1]);
 			}
 		});
 		

@@ -13,7 +13,7 @@ public class CalculoDesenho {
 	public CalculoDesenho(JanelaDados janelaDados, JanelaPrincipal janelaPrincipal) {
 		this.janelaDados = janelaDados;
 		this.janelaPrincipal = janelaPrincipal;
-		parteGrafica = new AlterarParteGrafica(janelaDados);
+		parteGrafica = new AlterarParteGrafica(janelaDados, janelaPrincipal);
 	}
 	// ---- CALCULO DAS RETAS ----
 	// RETA DDA
@@ -33,14 +33,14 @@ public class CalculoDesenho {
 				double x = Math.round(coordenadas[0]);
 				double y = Math.round(coordenadas[1]);
 				janelaPrincipal.drawPixel((int) x, (int) y);
-				parteGrafica.adicionaItensTabelaRetaDDA((int)x ,(int)y,tabelaLinha++,tabelaColuna);
+				parteGrafica.adicionaItensTabelaRetaDDA((int)x ,(int)y, tabelaLinha++,tabelaColuna);
 				
 				if (coordenadas[2] > coordenadas[0]) {
 					while (x < coordenadas[2]) {
 						x = x + xInc;
 						y = y + yInc;
 						janelaPrincipal.drawPixel((int) x, (int) y);
-						parteGrafica.adicionaItensTabelaRetaDDA((int)(x-janelaPrincipal.tamanhoTelaX/2) ,(int)(y-janelaPrincipal.tamanhoTelaY/2)*(-1),tabelaLinha++,tabelaColuna);
+						parteGrafica.adicionaItensTabelaRetaDDA((int)x ,(int)y ,tabelaLinha++,tabelaColuna);
 					}
 				} else if (coordenadas[2] < coordenadas[0]) {
 					while (x > coordenadas[2]) {
@@ -133,12 +133,8 @@ public class CalculoDesenho {
 					y = (int) Math.round(Math.sqrt(raio2 - x*x));
 					janelaPrincipal.drawPixel(posicaoX + x, posicaoY + y);
 					janelaPrincipal.drawPixel(posicaoX + x, posicaoY - y);
+					parteGrafica.adicionaItensTabelaEE(x, y, tabelaLinha, tabelaColuna);
 					
-					//mostrar dados na tabela
-					janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X0 = X
-					janelaDados.menuCircunferenciaEE.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);//Y0 = Y
-					janelaDados.menuCircunferenciaEE.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X1 = X
-					janelaDados.menuCircunferenciaEE.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);//Y1 = -Y
 					tabelaLinha = 0;
 					tabelaColuna++;
 				}	
@@ -148,13 +144,13 @@ public class CalculoDesenho {
 				public void desenhaCircunferenciaMT(int raio, int posicaoX, int posicaoY) {
 					int tabelaLinha = 0;
 					int tabelaColuna = 1;
-					
 					int x ,y;
 					
-					for(int teta = 0; teta<= 45; teta++) {
-						y = (int) Math.round(raio * Math.cos(Math.toRadians(teta)));
-						x = (int) Math.round(raio * Math.sin(Math.toRadians(teta)));
+					for(int teta = 0; teta <= 45; teta++) {
 						
+						x = (int) Math.round(raio * Math.cos(Math.toRadians(teta)));
+						y = (int) Math.round(raio * Math.sin(Math.toRadians(teta)));
+					
 						ponto_circulo(x,y,posicaoX,posicaoY);
 						parteGrafica.adicionaItensTabelaMT(x, y, tabelaLinha,tabelaColuna++);
 					}
