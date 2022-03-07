@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import Uteis.CalculoDesenho;
+import Uteis.Koch_Snowflake;
 import Uteis.Uteis;
 
 public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotionListener {
@@ -30,6 +31,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaDados janelaDados;
 	JanelaPrincipal principal = this;
 	CalculoDesenho calculoDesenho;
+	Koch_Snowflake KochSnowflake;
+	
 	Uteis uteis;
 	int[] coordPoligono = new int[4];
 	int ponteiroCoordPoligono = 0;
@@ -45,6 +48,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		this.janelaDados  = new JanelaDados("Computação Gráfica - Dados");	
 		this.calculoDesenho = new CalculoDesenho(janelaDados,this);
 		this.uteis = new Uteis(this);
+		this.KochSnowflake = new Koch_Snowflake(this);
 		
 		// --- AÇÕES DAS JANELAS ---
 		//limpar tela ao clicar na opcao
@@ -104,6 +108,16 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 					
 				//chama a funcao de desenho
 				calculoDesenho.desenhaCircunferenciaPM(raio,posicoes[0],posicoes[1]);
+			}
+		});
+		
+		janelaDados.menuSnowFlake.btnDesenhar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int interacoes = janelaDados.menuSnowFlake.slider.getValue();
+				KochSnowflake.DesenharSnowFlake(interacoes);
+				
+				//chama a funcao de desenho
+				
 			}
 		});
 		
@@ -213,6 +227,12 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		ndcx = (dcx / (ndh - 1));
         ndcy = (dcy /(ndv - 1));
 		janelaDados.menuCoordenadas.coordenadaCentralizadaNormalizada.setText(String.format("Coordenadas Normalizadas: [ %.2f , %.2f]\n",ndcx,ndcy));
+		
+		//COORDENADAS CARTESIANAS
+		dcx = Math.round(((tamanhoTelaX/2)-e.getX()))*-1;
+        dcy = Math.round(((tamanhoTelaY/2 )-e.getY()));
+        ndcx = (dcx / (ndh - 1));
+        ndcy = (dcy /(ndv - 1));
 		janelaDados.menuCoordenadas.coordenadaCartesiana.setText("Coordenadas Cartesiana : [" + dcx + ", " + dcy + "]");
 		
 	}// --- fim das eventos de mouse
@@ -232,6 +252,12 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		Graphics g = super.getGraphics();
 		g.setColor(Color.BLUE);
 		g.fillRect(x, y, 1, 1);
+	}
+	public void drawLine(int xi, int yi, int xf, int yf) {
+		//Desenha o lina do snowflake na tela grafica
+		Graphics g = super.getGraphics();
+		g.setColor(Color.BLUE);
+		g.drawLine(xi, yi, xf, yf);
 	}
 		
 	public void start() {
