@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
+import TelaMenus.JanelaFiltros;
+import TelaMenus.JanelaOperacoes;
 import TelaMenus.PanelCircunferenciaEE;
 import TelaMenus.PanelCircunferenciaMT;
 import TelaMenus.PanelCircunferenciaPM;
@@ -50,6 +52,9 @@ public class JanelaDados extends JFrame{
 	public PanelElipse menuElipse = new PanelElipse();
 	public PanelFiltros menuFiltro = new PanelFiltros();
 	public PanelOperacoes menuOperacoes = new PanelOperacoes();
+	public JanelaFiltros janelaFiltro = new JanelaFiltros();
+	public JanelaOperacoes janelaOperacao = new JanelaOperacoes();
+	JanelaImagens janelaImagens = new JanelaImagens("imagens");  
 	
 	public PanelSnowFlake menuSnowFlake = new PanelSnowFlake();
 	
@@ -215,6 +220,21 @@ public class JanelaDados extends JFrame{
 		panelPrincipal.validate();
 	}
 	
+	private void mudarPanelVisualizacao(JPanel panelRecebido) {
+		
+		if(janelaImagens.ativada==false) {
+			janelaImagens.start();
+			janelaImagens.ativada = true;
+		}
+		 
+		janelaImagens.panelPrincipal.removeAll();
+		janelaImagens.panelPrincipal.repaint();
+		
+		janelaImagens.panelPrincipal.setLayout(null);
+		janelaImagens.panelPrincipal.add(panelRecebido);
+		janelaImagens.panelPrincipal.validate();
+	}
+	
 	private void mudarPanelRetaDDA() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuRetaDDA);
@@ -251,10 +271,12 @@ public class JanelaDados extends JFrame{
 	private void mudarPanelFiltros() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuFiltro);
+		mudarPanelVisualizacao(janelaFiltro);
 	}
 	private void mudarPanelOperacoes() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuOperacoes);
+		mudarPanelVisualizacao(janelaOperacao);
 	}
 	
 	private void mudarPanelKochSnowFlake() {

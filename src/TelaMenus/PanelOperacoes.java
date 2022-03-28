@@ -57,7 +57,7 @@ public class PanelOperacoes extends JPanel {
 		
 		btnAplicarFiltro = new JButton("Aplicar operacao");
 		btnAplicarFiltro.setFont(new Font("Arial", Font.BOLD, 12));
-		btnAplicarFiltro.setBounds(92, 90, 108, 20);
+		btnAplicarFiltro.setBounds(70, 90, 140, 20);
 		panelSelecionaOperacao.add(btnAplicarFiltro);
 		
 
