@@ -74,5 +74,15 @@ public class AlterarParteGrafica {
 			janelaDados.menuCircunferenciaMT.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);
 			janelaDados.menuCircunferenciaMT.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);	 
 		}
+		public void adicionaItensTabelaElipse(int x, int y, int tabelaLinha, int tabelaColuna) {
+			janelaDados.menuElipse.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X0 = X
+			janelaDados.menuElipse.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);//Y0 = Y
+			janelaDados.menuElipse.tabela.setValueAt(x, tabelaLinha++, tabelaColuna);//X1 = X
+			janelaDados.menuElipse.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);//Y1 = -Y
+			janelaDados.menuElipse.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);//X2 = -X
+			janelaDados.menuElipse.tabela.setValueAt(-y, tabelaLinha++, tabelaColuna);//Y2 = -Y
+			janelaDados.menuElipse.tabela.setValueAt(-x, tabelaLinha++, tabelaColuna);//X3 = -X
+			janelaDados.menuElipse.tabela.setValueAt(y, tabelaLinha++, tabelaColuna);//Y3 = Y
+		}
 
 }

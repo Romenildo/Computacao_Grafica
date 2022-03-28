@@ -196,6 +196,59 @@ public class CalculoDesenho {
 				janelaPrincipal.drawPixel(-y + posicaoX, posicaoY + x);
 				janelaPrincipal.drawPixel(-x + posicaoX, posicaoY + y);
 			}
+			
+			//DESENHO ELIPSE apostila
+			public void desenharElipse(int posX, int posY, int diametro, int altura){
+				int tabelaLinha = 0, tabelaColuna = 1;
+				int x,y;
+				float d1,d2;
+				int a = diametro, b=altura;
+				/* Valores iniciais */ //b altura a diametro
+				x = 0;
+				y = b;
+				d1 = (float) (b * b - a * a * b + a * a / 4.0);
+				pontos_Elipse(x, y, posX, posY, tabelaLinha, tabelaColuna);
+				tabelaColuna++;
+				System.out.println(a * a * (y - 0.5)+" "+ b * b * (x + 1));
+				while(a * a * (y - 0.5) > b * b * (x + 1)){
+					//REGIAO 1 CIMA/ESQUEDA
+					if (d1 < 0) {
+						d1 = d1 + b * b * (2 * x + 3);
+						x++;
+					}else{
+						d1 = d1 + b * b * (2 * x + 3) + a * a * (-2 * y + 2);
+						x++;
+						y--;
+					}/*end if*/
+					pontos_Elipse(x, y, posX, posY, tabelaLinha, tabelaColuna);	
+					tabelaColuna++;
+					}/* end while */
+				d2 = (float) (b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1) * (y - 1) - a * a * b * b);
+				while(y > 0){
+					//REGIAO 2 BAIXO/DIREITA
+					if (d2 < 0){
+						d2 = d2 + b * b * (2 * x + 2) + a * a * (-2 * y + 3);
+						x++;
+						y--;
+					}else{
+						d2 = d2 + a * a * (-2 * y + 3);
+						y--;
+					}/*end if*/
+					pontos_Elipse(x, y, posX, posY, tabelaLinha, tabelaColuna);
+					tabelaColuna++;
+					}/* end while */
+			}/*end MidpointElipse*/
+			
+			public void pontos_Elipse(int x, int y, int posicaoX, int posicaoY, int tabelaLinha, int tabelaColuna) {
+				System.out.println(x + " " + y+ " " + posicaoX + " " + posicaoY );
+				janelaPrincipal.drawPixel(x + posicaoX, posicaoY + y);
+				janelaPrincipal.drawPixel(x + posicaoX, posicaoY - y);
+				janelaPrincipal.drawPixel(-x + posicaoX, posicaoY - y);
+				janelaPrincipal.drawPixel(-x + posicaoX, posicaoY + y);
+				tabelaLinha = 0;
+				parteGrafica.adicionaItensTabelaElipse(x, y, tabelaLinha, tabelaColuna);
+
+			}
 			//--- FIM DOS METODOS DE DESENHO 2D ---
 			
 }

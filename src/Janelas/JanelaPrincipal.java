@@ -110,6 +110,17 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				calculoDesenho.desenhaCircunferenciaPM(raio,posicoes[0],posicoes[1]);
 			}
 		});
+		janelaDados.menuElipse.btnDesenhar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int posicoes[] = uteis.pegarPosicoes(janelaDados.menuElipse.campoXY);
+				int diametro = Integer.parseInt(janelaDados.menuElipse.campoDiametro.getText());
+				int altura = Integer.parseInt(janelaDados.menuElipse.campoAltura.getText());
+					
+				//chama a funcao de desenho
+				calculoDesenho.desenharElipse(posicoes[0],posicoes[1], diametro, altura);
+			}
+		});
+		
 		
 		janelaDados.menuSnowFlake.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
