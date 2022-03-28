@@ -114,9 +114,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		janelaDados.menuSnowFlake.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int interacoes = janelaDados.menuSnowFlake.slider.getValue();
+				limparTela();
 				KochSnowflake.DesenharSnowFlake(interacoes);
-				
-				//chama a funcao de desenho
 				
 			}
 		});

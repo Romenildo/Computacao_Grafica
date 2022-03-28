@@ -28,6 +28,7 @@ import javax.swing.border.LineBorder;
 import TelaMenus.PanelCircunferenciaEE;
 import TelaMenus.PanelCircunferenciaMT;
 import TelaMenus.PanelCircunferenciaPM;
+import TelaMenus.PanelElipse;
 import TelaMenus.PanelSnowFlake;
 import TelaMenus.panelCoordenadas;
 import TelaMenus.panelRetaDDA;
@@ -44,6 +45,7 @@ public class JanelaDados extends JFrame{
 	public PanelCircunferenciaEE menuCircunferenciaEE = new PanelCircunferenciaEE();
 	public PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
 	public PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
+	public PanelElipse menuElipse = new PanelElipse();
 	
 	public PanelSnowFlake menuSnowFlake = new PanelSnowFlake();
 	
@@ -64,6 +66,7 @@ public class JanelaDados extends JFrame{
 	JMenuItem item2D_CircEE = new JMenuItem("Circunferência Equação Explícita");
 	JMenuItem item2D_CircMT = new JMenuItem("Circunferência Método Trigonométrico");
 	JMenuItem item2D_CircPM = new JMenuItem("Circunferência Ponto médio");
+	JMenuItem item2D_Elipse = new JMenuItem("Elipse");
 	
 	JMenu menuMais = new JMenu("Mais");
 	JMenuItem itemMais_snow = new JMenuItem("Koch SnowFlake");
@@ -93,6 +96,7 @@ public class JanelaDados extends JFrame{
 		menu2D.add(item2D_CircEE);
 		menu2D.add(item2D_CircMT);
 		menu2D.add(item2D_CircPM);
+		menu2D.add(item2D_Elipse);
 		
 		//menu MAIS
 		barra.add(menuMais);
@@ -139,6 +143,12 @@ public class JanelaDados extends JFrame{
 		item2D_CircPM.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	mudarPanelCircunferenciaPM();
+            }
+        });
+		//tela Elipse
+		item2D_Elipse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	mudarPanelElipse();
             }
         });
 		//tela koch snowflake
@@ -200,6 +210,10 @@ public class JanelaDados extends JFrame{
 	private void mudarPanelCircunferenciaPM() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuCircunferenciaPM);
+	}
+	private void mudarPanelElipse() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuElipse);
 	}
 	
 	private void mudarPanelKochSnowFlake() {

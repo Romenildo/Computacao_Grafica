@@ -27,18 +27,15 @@ public class Koch_Snowflake extends JPanel {
 		this.janelaPrincipal = janelaPrincipal;
 		
 		
-        inicioX = (janelaPrincipal.tamanhoTelaX - 500d) / 2;
-        inicioY = (janelaPrincipal.tamanhoTelaY - 300d) / 2;
-        
     }
 
     public void DesenharSnowFlake(int interacoes) {
-        inicioX = (janelaPrincipal.tamanhoTelaX - 500d) / 2;
-        inicioY = (janelaPrincipal.tamanhoTelaY - 300d) / 2;
+    	angulo =0;
+        inicioX = (janelaPrincipal.tamanhoTelaX ) / 4;
+        inicioY = (janelaPrincipal.tamanhoTelaY ) / 4;
 
         int passos = interacoes;
         int tamanho = (int) (500 / (Math.pow(3, passos)));
-
         kochSnowflake(passos, tamanho);
         angulo += 120;
         kochSnowflake(passos, tamanho);
