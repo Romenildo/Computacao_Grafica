@@ -70,6 +70,8 @@ public class JanelaDados extends JFrame{
 	
 	JMenu menuMais = new JMenu("Mais");
 	JMenuItem itemMais_snow = new JMenuItem("Koch SnowFlake");
+	JMenuItem itemMais_ritmo = new JMenuItem("Ritmo Cardiaco");
+	
 	
 	
 	public JanelaDados(String titulo) {
@@ -101,6 +103,8 @@ public class JanelaDados extends JFrame{
 		//menu MAIS
 		barra.add(menuMais);
 		menuMais.add(itemMais_snow);
+		menuMais.add(itemMais_ritmo);
+
 
 		//   ---EVENTOS AO CLICAR NAS OPCOES DO MENU
 		// tela das coordenadas

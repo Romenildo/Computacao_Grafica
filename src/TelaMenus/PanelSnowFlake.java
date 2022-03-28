@@ -50,9 +50,14 @@ public class PanelSnowFlake extends JPanel {
 		labelSnow.setBounds(55, 30, 70, 30);
 		panelConfigSnow.add(labelSnow);
 		
+		JLabel labelNumInteracoes = new JLabel("1 ___ 2 ___ 3 ___ 4 ___ 5 ___ 6");
+		labelNumInteracoes.setFont(new Font("Arial", Font.ITALIC, 13));
+		labelNumInteracoes.setBounds(63, 46, 200, 30);
+		panelConfigSnow.add(labelNumInteracoes);
+		
 		slider = new JSlider();
 		slider.setMaximum(5);
-		slider.setBounds(60, 55, 200, 41);
+		slider.setBounds(56, 70, 195, 28);
 		panelConfigSnow.add(slider);
 		
 		
