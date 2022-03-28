@@ -29,6 +29,8 @@ import TelaMenus.PanelCircunferenciaEE;
 import TelaMenus.PanelCircunferenciaMT;
 import TelaMenus.PanelCircunferenciaPM;
 import TelaMenus.PanelElipse;
+import TelaMenus.PanelFiltros;
+import TelaMenus.PanelOperacoes;
 import TelaMenus.PanelSnowFlake;
 import TelaMenus.panelCoordenadas;
 import TelaMenus.panelRetaDDA;
@@ -46,6 +48,8 @@ public class JanelaDados extends JFrame{
 	public PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
 	public PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
 	public PanelElipse menuElipse = new PanelElipse();
+	public PanelFiltros menuFiltro = new PanelFiltros();
+	public PanelOperacoes menuOperacoes = new PanelOperacoes();
 	
 	public PanelSnowFlake menuSnowFlake = new PanelSnowFlake();
 	
@@ -68,6 +72,12 @@ public class JanelaDados extends JFrame{
 	JMenuItem item2D_CircPM = new JMenuItem("Circunferência Ponto médio");
 	JMenuItem item2D_Elipse = new JMenuItem("Elipse");
 	
+	//menu imagens
+	JMenu menuImagens = new JMenu("Imagens");
+	JMenuItem itemImg_filtros = new JMenuItem("Filtros");
+	JMenuItem itemImg_operacoes = new JMenuItem("Operações");
+	
+	//menu mais
 	JMenu menuMais = new JMenu("Mais");
 	JMenuItem itemMais_snow = new JMenuItem("Koch SnowFlake");
 	JMenuItem itemMais_ritmo = new JMenuItem("Ritmo Cardiaco");
@@ -99,6 +109,11 @@ public class JanelaDados extends JFrame{
 		menu2D.add(item2D_CircMT);
 		menu2D.add(item2D_CircPM);
 		menu2D.add(item2D_Elipse);
+		
+		//menu Imagens
+		barra.add(menuImagens);
+		menuImagens.add(itemImg_filtros);
+		menuImagens.add(itemImg_operacoes);
 		
 		//menu MAIS
 		barra.add(menuMais);
@@ -155,6 +170,21 @@ public class JanelaDados extends JFrame{
             	mudarPanelElipse();
             }
         });
+		
+		//tela Filtros
+		itemImg_filtros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		         mudarPanelFiltros();
+		    }
+		 });
+		
+		//tela operacoes
+		itemImg_operacoes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				  mudarPanelOperacoes();
+			}
+		});
+		
 		//tela koch snowflake
 		itemMais_snow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -183,7 +213,6 @@ public class JanelaDados extends JFrame{
 		
 		panelPrincipal.add(panelRecebido);
 		panelPrincipal.validate();
-		
 	}
 	
 	private void mudarPanelRetaDDA() {
@@ -218,6 +247,14 @@ public class JanelaDados extends JFrame{
 	private void mudarPanelElipse() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuElipse);
+	}
+	private void mudarPanelFiltros() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuFiltro);
+	}
+	private void mudarPanelOperacoes() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuOperacoes);
 	}
 	
 	private void mudarPanelKochSnowFlake() {
