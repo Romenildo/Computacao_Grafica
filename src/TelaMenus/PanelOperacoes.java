@@ -22,7 +22,8 @@ public class PanelOperacoes extends JPanel {
 	
 	public JTable tabela;
 	public JCheckBox checkBoxMouse;
-	public JButton btnAplicarFiltro;
+	public JButton btnAplicarOperacao;
+	public JComboBox comboBox;
 	
 	
 	public PanelOperacoes() {
@@ -48,17 +49,17 @@ public class PanelOperacoes extends JPanel {
 		escolhaOperacao.setBounds(40, 38, 140, 13);
 		panelSelecionaOperacao.add(escolhaOperacao);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1- Soma", "2- Subtracao", "3- Multiplicacao", "4- Divisao", "5- OR", "6- AND", "7- XOR"}));
 		comboBox.setBounds(40, 58, 210, 21);
 		panelSelecionaOperacao.add(comboBox);
 		
 		
-		btnAplicarFiltro = new JButton("Aplicar operacao");
-		btnAplicarFiltro.setFont(new Font("Arial", Font.BOLD, 12));
-		btnAplicarFiltro.setBounds(70, 90, 140, 20);
-		panelSelecionaOperacao.add(btnAplicarFiltro);
+		btnAplicarOperacao = new JButton("Aplicar operacao");
+		btnAplicarOperacao.setFont(new Font("Arial", Font.BOLD, 12));
+		btnAplicarOperacao.setBounds(70, 90, 140, 20);
+		panelSelecionaOperacao.add(btnAplicarOperacao);
 		
 
 	}

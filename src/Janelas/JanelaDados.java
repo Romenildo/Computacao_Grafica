@@ -26,17 +26,28 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
 import TelaMenus.JanelaFiltros;
+import TelaMenus.JanelaHistograma;
+import TelaMenus.JanelaMorfologicos;
+import TelaMenus.JanelaMorfologicosBinario;
 import TelaMenus.JanelaOperacoes;
+import TelaMenus.JanelaProcessamento;
 import TelaMenus.PanelCircunferenciaEE;
 import TelaMenus.PanelCircunferenciaMT;
 import TelaMenus.PanelCircunferenciaPM;
 import TelaMenus.PanelElipse;
 import TelaMenus.PanelFiltros;
+import TelaMenus.PanelHistograma;
+import TelaMenus.PanelMorfologico;
+import TelaMenus.PanelMorfologicoBinario;
 import TelaMenus.PanelOperacoes;
+import TelaMenus.PanelProcessamento;
+import TelaMenus.PanelRitmoCardiaco;
 import TelaMenus.PanelSnowFlake;
 import TelaMenus.panelCoordenadas;
 import TelaMenus.panelRetaDDA;
 import TelaMenus.panelRetaPontoMedio;
+import Uteis.RitmoCardiaco;
+
 
 
 public class JanelaDados extends JFrame{
@@ -49,14 +60,27 @@ public class JanelaDados extends JFrame{
 	public PanelCircunferenciaEE menuCircunferenciaEE = new PanelCircunferenciaEE();
 	public PanelCircunferenciaMT menuCircunferenciaMT = new PanelCircunferenciaMT();
 	public PanelCircunferenciaPM menuCircunferenciaPM = new PanelCircunferenciaPM();
+	
 	public PanelElipse menuElipse = new PanelElipse();
 	public PanelFiltros menuFiltro = new PanelFiltros();
 	public PanelOperacoes menuOperacoes = new PanelOperacoes();
+	public PanelProcessamento menuProcessamento = new PanelProcessamento();
+	public PanelHistograma menuHistograma = new PanelHistograma();
+	public PanelMorfologico menuMorfologico = new PanelMorfologico();
+	public PanelMorfologicoBinario menuMorfologicoBinario = new PanelMorfologicoBinario();
+	
+	
 	public JanelaFiltros janelaFiltro = new JanelaFiltros();
 	public JanelaOperacoes janelaOperacao = new JanelaOperacoes();
+	public JanelaProcessamento janelaProcessamento = new JanelaProcessamento();
+	public JanelaHistograma janelaHistograma = new JanelaHistograma();
+	public JanelaMorfologicos janelaMorfologico= new JanelaMorfologicos();
+	public JanelaMorfologicosBinario janelaMorfologicoBinario= new JanelaMorfologicosBinario();
+	
 	JanelaImagens janelaImagens = new JanelaImagens("imagens");  
 	
 	public PanelSnowFlake menuSnowFlake = new PanelSnowFlake();
+	public PanelRitmoCardiaco menuRitmoCardiaco = new PanelRitmoCardiaco();
 	
 	//DECLARACAO DOS MENUS
 	JMenuBar barra = new JMenuBar();
@@ -81,6 +105,10 @@ public class JanelaDados extends JFrame{
 	JMenu menuImagens = new JMenu("Imagens");
 	JMenuItem itemImg_filtros = new JMenuItem("Filtros");
 	JMenuItem itemImg_operacoes = new JMenuItem("Operações");
+	JMenuItem itemImg_processos = new JMenuItem("Processos");
+	JMenuItem itemImg_histograma = new JMenuItem("Equalizar");
+	JMenuItem itemImg_morfologico = new JMenuItem("Operadores Morfologicos- Cinza");
+	JMenuItem itemImg_morfologicoBinario = new JMenuItem("Operadores Morfologicos- Binario");
 	
 	//menu mais
 	JMenu menuMais = new JMenu("Mais");
@@ -119,6 +147,10 @@ public class JanelaDados extends JFrame{
 		barra.add(menuImagens);
 		menuImagens.add(itemImg_filtros);
 		menuImagens.add(itemImg_operacoes);
+		menuImagens.add(itemImg_processos);
+		menuImagens.add(itemImg_histograma);
+		menuImagens.add(itemImg_morfologico);
+		menuImagens.add(itemImg_morfologicoBinario);
 		
 		//menu MAIS
 		barra.add(menuMais);
@@ -189,6 +221,30 @@ public class JanelaDados extends JFrame{
 				  mudarPanelOperacoes();
 			}
 		});
+		//tela processamento
+		itemImg_processos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelProcessamento();
+			}
+		});
+		//tela histograma
+		itemImg_histograma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelHistograma();
+			}
+		});
+		//tela Morfologico
+		itemImg_morfologico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelMorfologia();
+			}
+		});
+		itemImg_morfologicoBinario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelMorfologiaBinario();
+			}
+		});
+	
 		
 		//tela koch snowflake
 		itemMais_snow.addActionListener(new ActionListener() {
@@ -196,6 +252,87 @@ public class JanelaDados extends JFrame{
             	mudarPanelKochSnowFlake();
             }
         });
+		//tela Ritmo Cardiaco
+		itemMais_ritmo.addActionListener(new ActionListener() {
+		     public void actionPerformed(ActionEvent e) {
+		    	 mudarPanelRitmoCardiaco();
+		     }
+		 });
+		
+		//evento imagens
+		
+		menuFiltro.btnAplicarFiltro.addActionListener(new java.awt.event.ActionListener() {
+	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+	    		double coefA =0;
+	    		
+	    		int indiceSelecionado = menuFiltro.comboBox.getSelectedIndex();
+	    		if(indiceSelecionado == 9) {
+	    			coefA = Double.valueOf(menuFiltro.campoA.getText());
+	    		}
+	    		janelaFiltro.aplicarFiltros(evt, indiceSelecionado, coefA);
+	    	}	
+	     });
+		menuOperacoes.btnAplicarOperacao.addActionListener(new java.awt.event.ActionListener() {
+	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+	    		int indiceSelecionado = menuOperacoes.comboBox.getSelectedIndex();
+	    		janelaOperacao.aplicarOperacoes(evt, indiceSelecionado);
+	    	}	
+	     });
+		menuProcessamento.btnAtivarProcesso.addActionListener(new java.awt.event.ActionListener() {
+	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+	    		double gamma=0, w_target = 0;
+	    		int a_log=10, sigma=0, w=0, a_linear=0, b_linear=0;
+	    		int indiceSelecionado = menuProcessamento.comboBox.getSelectedIndex();
+
+	    		if(indiceSelecionado == 1) {
+	    			gamma = Double.valueOf(menuProcessamento.campoGamma.getText());
+	    		}
+	    		if(indiceSelecionado == 2) {
+	    			//logaritmo
+	    			a_log = Integer.valueOf(menuProcessamento.campoLog.getText());
+	    		}
+	    		if(indiceSelecionado == 3) {
+	    			//intensidade
+	    			sigma = Integer.valueOf(menuProcessamento.campoSigma.getText());
+	    			w = Integer.valueOf(menuProcessamento.campoW.getText());
+	    		}
+	    		if(indiceSelecionado == 4) {
+	    			//faixa dinamica
+	    			w_target = Integer.valueOf(menuProcessamento.campoTarget.getText());
+	    		}
+	    		if(indiceSelecionado == 5) {
+	    			//faixa dinamica
+	    			a_linear= Integer.valueOf(menuProcessamento.campoA.getText());
+	    			b_linear = Integer.valueOf(menuProcessamento.campoB.getText());
+	    		}
+	    		
+	    		janelaProcessamento.aplicarProcessamentos(evt, indiceSelecionado,gamma, a_log,sigma, w, w_target, a_linear, b_linear);
+	    	}	
+	     });
+		menuHistograma.btnIniciarHistograma.addActionListener(new java.awt.event.ActionListener() {
+	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+	    		janelaHistograma.iniciarEqualizacao(evt);
+	    	}	
+	     });
+		
+		menuMorfologico.btnAplicaMorfologia.addActionListener(new java.awt.event.ActionListener() {
+	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+	    		int indiceSelecionado = menuMorfologico.comboBox.getSelectedIndex();
+	    		janelaMorfologico.aplicarMorfologia(evt, indiceSelecionado);
+	    	}	
+	     });
+		menuMorfologicoBinario.btnAplicaMorfologia.addActionListener(new java.awt.event.ActionListener() {
+	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
+	    		int indiceSelecionado = menuMorfologicoBinario.comboBox.getSelectedIndex();
+	    		
+	    		int pixel_desejado = Integer.valueOf(menuMorfologicoBinario.campoPixel.getText());
+
+	    		if(pixel_desejado==0 || pixel_desejado==255) {
+	    			janelaMorfologicoBinario.aplicarMorfologia(evt, indiceSelecionado, pixel_desejado);
+	    		}
+	    		
+	    	}	
+	     });
 		// --- FIM DOS EVENTOS DO MENU
 		
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE); 
@@ -278,9 +415,34 @@ public class JanelaDados extends JFrame{
 		mudarPanelPrincipal(menuOperacoes);
 		mudarPanelVisualizacao(janelaOperacao);
 	}
+	private void mudarPanelProcessamento() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuProcessamento);
+		mudarPanelVisualizacao(janelaProcessamento);
+	}
+	private void mudarPanelHistograma() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuHistograma);
+		mudarPanelVisualizacao(janelaHistograma);
+	}
+	private void mudarPanelMorfologia() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuMorfologico);
+		mudarPanelVisualizacao(janelaMorfologico);
+	}
+	private void mudarPanelMorfologiaBinario() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuMorfologicoBinario);
+		mudarPanelVisualizacao(janelaMorfologicoBinario);
+		menuMorfologicoBinario.campoPixel.setText("0");
+	}
 	
 	private void mudarPanelKochSnowFlake() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuSnowFlake);
+	}
+	private void mudarPanelRitmoCardiaco() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuRitmoCardiaco);
 	}
 }

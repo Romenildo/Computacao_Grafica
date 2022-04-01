@@ -52,13 +52,16 @@ public class CalculoDesenho {
 				}
 			}
 			
+			
 			// RETA PONTO MÉDIO
 			public void desenharRetaPontoMedio(int[] coordenadas) {
+				corrigirCoordenadas(coordenadas);
 				int tabelaLinha = 0;
 				int tabelaColuna = 0;
 				
+				
 				int dx = Math.abs(coordenadas[2] - coordenadas[0]);
-				int dy = Math.abs(coordenadas[3] - coordenadas[1]);// 1º octante
+				int dy = Math.abs(coordenadas[3] - coordenadas[1]);
 				janelaDados.menuRetaPontoMedio.campoDx.setText(String.valueOf(dx));
 				janelaDados.menuRetaPontoMedio.campoDy.setText(String.valueOf(dy));
 				
@@ -74,7 +77,7 @@ public class CalculoDesenho {
 				// Ponto inicial:
 				int x = coordenadas[0];
 				int y = coordenadas[1];
-				janelaPrincipal.drawPixel(x, y);
+				drawPixel(x, y);
 				parteGrafica.adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
 
 				// Escolhendo próximos pontos:
@@ -84,7 +87,7 @@ public class CalculoDesenho {
 							// Escolhido ponto E (inferior)
 							d = d + incE;
 							x = x + 1;
-							janelaPrincipal.drawPixel(x, y);
+							drawPixel(x, y);
 							parteGrafica.adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
 
 						} else {
@@ -92,7 +95,7 @@ public class CalculoDesenho {
 							d = d + incNE;
 							x = x + 1;
 							y = y - 1; // usado negativo, pois as coord Y da tela crescem para baixo
-							janelaPrincipal.drawPixel(x, y);
+							drawPixel(x, y);
 							parteGrafica.adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
 						}
 					}
@@ -102,7 +105,7 @@ public class CalculoDesenho {
 							// Escolhido ponto E (inferior)
 							d = d + incE;
 							x = x - 1;
-							janelaPrincipal.drawPixel(x, y);
+							drawPixel(x, y);
 							parteGrafica.adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
 
 						} else {
@@ -110,7 +113,7 @@ public class CalculoDesenho {
 							d = d + incNE;
 							x = x - 1;
 							y = y + 1;  
-							janelaPrincipal.drawPixel(x, y);
+							drawPixel(x, y);
 							parteGrafica.adicionaItensTabelaRetaPM(d, x, y, tabelaLinha++, tabelaColuna);
 						}
 					}
@@ -209,7 +212,7 @@ public class CalculoDesenho {
 				d1 = (float) (b * b - a * a * b + a * a / 4.0);
 				pontos_Elipse(x, y, posX, posY, tabelaLinha, tabelaColuna);
 				tabelaColuna++;
-				System.out.println(a * a * (y - 0.5)+" "+ b * b * (x + 1));
+				
 				while(a * a * (y - 0.5) > b * b * (x + 1)){
 					//REGIAO 1 CIMA/ESQUEDA
 					if (d1 < 0) {
@@ -240,7 +243,7 @@ public class CalculoDesenho {
 			}/*end MidpointElipse*/
 			
 			public void pontos_Elipse(int x, int y, int posicaoX, int posicaoY, int tabelaLinha, int tabelaColuna) {
-				System.out.println(x + " " + y+ " " + posicaoX + " " + posicaoY );
+				
 				janelaPrincipal.drawPixel(x + posicaoX, posicaoY + y);
 				janelaPrincipal.drawPixel(x + posicaoX, posicaoY - y);
 				janelaPrincipal.drawPixel(-x + posicaoX, posicaoY - y);
@@ -250,5 +253,19 @@ public class CalculoDesenho {
 
 			}
 			//--- FIM DOS METODOS DE DESENHO 2D ---
+			
+			
+			
+			
+			
+			//ADICIONAIS
+			public void corrigirCoordenadas(int[] coordenadas) {
+				int[] novasCoordenadas = {coordenadas[0],coordenadas[1],coordenadas[2],coordenadas[3]};
+				desenharRetaDDA(novasCoordenadas);
+			}
+			
+			public void drawPixel(int x , int y) {
+				
+			}
 			
 }

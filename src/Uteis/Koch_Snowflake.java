@@ -31,11 +31,14 @@ public class Koch_Snowflake extends JPanel {
 
     public void DesenharSnowFlake(int interacoes) {
     	angulo =0;
+    	//posicao do inicio do desenho
         inicioX = (janelaPrincipal.tamanhoTelaX ) / 4;
         inicioY = (janelaPrincipal.tamanhoTelaY ) / 4;
 
-        int passos = interacoes;
+        int passos = interacoes;//quantidade de interações nos triagolos
+        
         int tamanho = (int) (500 / (Math.pow(3, passos)));
+        
         kochSnowflake(passos, tamanho);
         angulo += 120;
         kochSnowflake(passos, tamanho);
@@ -47,10 +50,10 @@ public class Koch_Snowflake extends JPanel {
 
         if (passos == 0) {
 
+        	//linha antes de rotacionar
             double endX = (Math.cos(Math.toRadians(angulo)) * tamanho + inicioX);
             double endY = (Math.sin(Math.toRadians(angulo)) * tamanho + inicioY);
 
-           // g2.setStroke(new BasicStroke(2));
             
             janelaPrincipal.drawLine((int) inicioX, (int) inicioY, (int) endX, (int) endY);
 

@@ -1,5 +1,7 @@
 package Janelas;
 
+import java.awt.BasicStroke;
+
 /** 
  * Classe Janela principal
  * 
@@ -11,11 +13,16 @@ package Janelas;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,6 +30,7 @@ import javax.swing.JTextField;
 
 import Uteis.CalculoDesenho;
 import Uteis.Koch_Snowflake;
+import Uteis.RitmoCardiaco;
 import Uteis.Uteis;
 
 public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotionListener {
@@ -32,10 +40,13 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	JanelaPrincipal principal = this;
 	CalculoDesenho calculoDesenho;
 	Koch_Snowflake KochSnowflake;
+	RitmoCardiaco ritmoCardiaco;
 	
 	Uteis uteis;
 	int[] coordPoligono = new int[4];
 	int ponteiroCoordPoligono = 0;
+	int[] coordPoligonoPM = new int[4];
+	int ponteiroCoordPoligonoPM = 0;
 	
 	//global
 	public static int tamanhoTelaX;
@@ -49,6 +60,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		this.calculoDesenho = new CalculoDesenho(janelaDados,this);
 		this.uteis = new Uteis(this);
 		this.KochSnowflake = new Koch_Snowflake(this);
+		this.ritmoCardiaco = new RitmoCardiaco(tamanhoTelaX,tamanhoTelaY,this);
 		
 		// --- AÇÕES DAS JANELAS ---
 		//limpar tela ao clicar na opcao
@@ -68,7 +80,7 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			}
 		});
 		
-		//desenhar a RETA Ponto Medio ao clicar no botao desenhar
+		//desenhar a RETA Ponto Medio ao clicar no botao desenhar(nao sequencial)
 		janelaDados.menuRetaPontoMedio.btnDesenhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int[] coordRetaPM = uteis.pegarPosicoesReta(janelaDados.menuRetaPontoMedio.campoX1Y1, janelaDados.menuRetaPontoMedio.campoX2Y2);
@@ -131,6 +143,16 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			}
 		});
 		
+		janelaDados.menuRitmoCardiaco.btnIniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				limparTela();
+				ritmoCardiaco.desenharRitmoCardiaco();
+				
+			}
+		});
+		
+		
 	}// fim do construtor
 	
 	//	----MOUSE EVENTS----
@@ -149,7 +171,6 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			if ( ponteiroCoordPoligono == 4) {	
 				
 				janelaDados.menuRetaDDA.campoX2Y2.setText((coordPoligono[2]-tamanhoTelaX/2)+","+ ((coordPoligono[3]-tamanhoTelaY/2)*(-1)));
-				
 				calculoDesenho.desenharRetaDDA(coordPoligono);
 				
 				coordPoligono[0] = coordPoligono[2];
@@ -164,10 +185,10 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			coordPoligono[ponteiroCoordPoligono + 1] = e.getY();
 			ponteiroCoordPoligono = ponteiroCoordPoligono + 2;
 			
-			janelaDados.menuRetaPontoMedio.campoX1Y1.setText((coordPoligono[0]-tamanhoTelaX/2) +","+ (coordPoligono[2]+tamanhoTelaY/2));
+			janelaDados.menuRetaPontoMedio.campoX1Y1.setText((coordPoligono[0]-tamanhoTelaX/2) +","+ ((coordPoligono[1]-tamanhoTelaY/2)*(-1)));
 			if ( ponteiroCoordPoligono == 4) {	
-				janelaDados.menuRetaPontoMedio.campoX2Y2.setText((coordPoligono[1]-tamanhoTelaX/2)+","+ (coordPoligono[3]+tamanhoTelaY/2));
 				
+				janelaDados.menuRetaPontoMedio.campoX2Y2.setText((coordPoligono[2]-tamanhoTelaX/2)+","+ ((coordPoligono[3]-tamanhoTelaY/2)*(-1)));
 				calculoDesenho.desenharRetaPontoMedio(coordPoligono);
 				
 				coordPoligono[0] = coordPoligono[2];
@@ -247,28 +268,35 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		
 	}// --- fim das eventos de mouse
 	
-	public void limparTela() {
-			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
-			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
-			
-			for(int i = 0; i<4;i++) {
-				coordPoligono[i]=0;
-			}
-			ponteiroCoordPoligono = 0;
-    }
-	
 	public void drawPixel(int x, int y) {
 		//Desenha o pixel na tela grafica
 		Graphics g = super.getGraphics();
 		g.setColor(Color.BLUE);
 		g.fillRect(x, y, 1, 1);
 	}
+	
+	public void limparTela() {
+			this.getGraphics().clearRect(0, 0, tamanhoTelaX, tamanhoTelaY);//apaga tudo
+			this.paint(this.getGraphics());//desenha o plano Cartesiano Novamente
+			
+			for(int i = 0; i<4;i++) {
+				coordPoligono[i]=0;
+				coordPoligonoPM[i]=0;
+			}
+			ponteiroCoordPoligono = 0;
+			ponteiroCoordPoligonoPM = 0;
+    }
+	
+	
+	
+	
 	public void drawLine(int xi, int yi, int xf, int yf) {
 		//Desenha o lina do snowflake na tela grafica
-		Graphics g = super.getGraphics();
-		g.setColor(Color.BLUE);
-		g.drawLine(xi, yi, xf, yf);
+		int[] coordRetaDDA = {xi,yi,xf,yf};
+		calculoDesenho.desenharRetaDDA(coordRetaDDA);
+	
 	}
+	
 		
 	public void start() {
 		//inicia a classe
@@ -292,5 +320,40 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
         g.drawLine(0, tamanhoTelaY/2, tamanhoTelaX,tamanhoTelaY/2);//linha X
         g.drawLine(tamanhoTelaX/2,0, tamanhoTelaX/2,tamanhoTelaY );//linha Y
     }
+	
+	
+	public void ativaRitmo() {
+		
+		Graphics g = super.getGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+	
+		 g2d.setStroke(new BasicStroke(1.0f));
+	 
+	}
+	
+	
+	public void Transforma(AffineTransform yUp) {
+		//Desenha o lina do snowflake na tela grafica
+		Graphics g = super.getGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+		
+	    g2d.transform(yUp);
+	}
+	public void instanciarTela(Rectangle2D.Double windowFrame) {
+		//Desenha o lina do snowflake na tela grafica
+		Graphics g = super.getGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+		
+		
+		 g2d.draw(windowFrame);
+	}
+	public void desenharPixeis(Shape shape) {
+		//Desenha o lina do snowflake na tela grafica
+		Graphics g = super.getGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.GREEN);
+		 g2d.draw(shape);
+	}
+	
 	
 }

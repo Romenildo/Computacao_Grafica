@@ -63,41 +63,6 @@ public class JanelaImagens extends JFrame {
 	
 	 
 	 
-	 /*
-	  private void aplicarFiltro(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aplicarFiltro
-	        PanelMenuFiltros menuFiltros = PanelMenuFiltros.getInstance();
-
-	        switch (menuFiltros.getTipoAlgoritimo()) {
-	            case MEDIA:
-	                panelImgOutput.getGraphics().drawImage(new FiltroMedia(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case MEDIANA:
-	                panelImgOutput.getGraphics().drawImage(new FiltroMediana(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case PASSA_ALTA_BASICO:
-	                panelImgOutput.getGraphics().drawImage(new FiltroPassaAlta(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case OPERADOR_ROBERTS:
-	                panelImgOutput.getGraphics().drawImage(new FiltroRoberts(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case OPERADOR_ROBERTS_CRUZADO:
-	                panelImgOutput.getGraphics().drawImage(new FiltroRobertsCruzado(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case OPERADOR_PEWITT:
-	                panelImgOutput.getGraphics().drawImage(new FiltroPrewitt(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case OPERADOR_SOBEL:
-	                panelImgOutput.getGraphics().drawImage(new FiltroSobel(imagemMatriz, getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            case ALTO_REFORCO:
-	                panelImgOutput.getGraphics().drawImage(new FiltroAltoReforco(imagemMatriz, menuFiltros.getA() ,getImgWidth(), getImgHeight()).run(), 0, 0, null);
-	                break;
-	            default:
-	                break;
-	        }
-	    }
-	    */
-	 
 	 
 	
 	
