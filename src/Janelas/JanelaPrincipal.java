@@ -23,6 +23,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -47,6 +49,8 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 	int ponteiroCoordPoligono = 0;
 	int[] coordPoligonoPM = new int[4];
 	int ponteiroCoordPoligonoPM = 0;
+	List<Integer> coordenadasObjeto = new ArrayList<>();
+	List<Integer> coordenadasObjetoTransformado = new ArrayList<>();
 	
 	//global
 	public static int tamanhoTelaX;
@@ -152,6 +156,116 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 			}
 		});
 		
+		//ACOES TRANSFORMACOES
+		// Adicionar translação após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarTranslacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbTranslacao.isSelected()) {
+					System.out.println("Translação");
+					transladarComp(coordenadasObjetoTransformado);
+					String nome = "Translação";
+					janelaDados.menuTransfGeomComp.textArea.append(nome+ "Tx: "+janelaDados.menuTransfGeomComp.campoTx.getText()+ " Ty: " +janelaDados.menuTransfGeomComp.campoTy.getText() + "\n");
+				}
+			}
+
+		});
+
+		// Adicionar escala após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarEscala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbEscala.isSelected()) {
+					System.out.println("Escala");
+					escalarComp(coordenadasObjetoTransformado);
+					String nome = "Escala";
+					janelaDados.menuTransfGeomComp.textArea.append(nome+ " Sx: "+janelaDados.menuTransfGeomComp.campoSx.getText()+ " Sy: " +janelaDados.menuTransfGeomComp.campoSy.getText() + "\n");
+				}
+			}
+		});
+
+		// Adicionar rotação após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarRotacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbRotacao.isSelected()) {
+					System.out.println("Rotação");
+					rotacionarComp(coordenadasObjetoTransformado);
+					String nome = "Rotação";
+					janelaDados.menuTransfGeomComp.textArea.append(nome+ " ângulo: "+janelaDados.menuTransfGeomComp.campoAng.getText()+"\n");
+				}
+			}
+		});
+
+		// Adicionar cisalhamento após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarCisalhamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbCisalhamento.isSelected()) {
+					System.out.println("Cisalhamento");
+					cisalharComp(coordenadasObjetoTransformado);
+					String nome = "Cisalhamento";
+					janelaDados.menuTransfGeomComp.textArea.append(nome+ " Cx: "+janelaDados.menuTransfGeomComp.campoCx.getText()+ " Cy: " +janelaDados.menuTransfGeomComp.campoCy.getText() + "\n");
+				}
+			}
+		});
+
+		// Adicionar Reflexão em X após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarReflexao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbReflexao.isSelected()
+						&& janelaDados.menuTransfGeomComp.combo.getSelectedItem().equals("Em X")) {
+					System.out.println("Reflexão em X");
+					reflexaoEixoXComp(coordenadasObjetoTransformado);
+					String nome = "Reflexão em X";	
+					janelaDados.menuTransfGeomComp.textArea.append(nome+"\n");
+				}
+			}
+		});
+
+		// Adicionar Reflexão em Y após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarReflexao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbReflexao.isSelected()
+						&& janelaDados.menuTransfGeomComp.combo.getSelectedItem().equals("Em Y")) {
+					System.out.println("Reflexão em Y");
+					reflexaoEixoYComp(coordenadasObjetoTransformado);
+					String nome = "Reflexão em Y";	
+					janelaDados.menuTransfGeomComp.textArea.append(nome+"\n");
+				}
+			}
+		});
+
+		// Adicionar Reflexão em torno da origem após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarReflexao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbReflexao.isSelected()
+						&& janelaDados.menuTransfGeomComp.combo.getSelectedItem().equals("Em torno da origem")) {
+					System.out.println("Reflexão em torno da origem");
+					reflexaoEmTornoOrigemComp(coordenadasObjetoTransformado);
+					String nome = "Reflexão em torno da origem";	
+					janelaDados.menuTransfGeomComp.textArea.append(nome+"\n");
+				}
+			}
+		});
+
+		// Adicionar Reflexão em torno da rete Y=X após apertar botão
+		janelaDados.menuTransfGeomComp.btnAdicionarReflexao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (janelaDados.menuTransfGeomComp.rbReflexao.isSelected()
+						&& janelaDados.menuTransfGeomComp.combo.getSelectedItem().equals("Em torno da reta Y=X")) {
+					System.out.println("Reflexão em torno da reta Y = X");
+					reflexaoEmTornoRetaYXComp(coordenadasObjetoTransformado);
+					String nome = "Reflexão em torno de uma reta qualquer";	
+					janelaDados.menuTransfGeomComp.textArea.append(nome+"\n");
+				}
+			}
+		});
+
+		// Aplicar transformações:
+		janelaDados.menuTransfGeomComp.btnAplicarTransfComposta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparTela();
+				redesenharObjetoTransformadoLista(coordenadasObjetoTransformado);
+			}
+		});
+		
 		
 	}// fim do construtor
 	
@@ -196,6 +310,139 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 				ponteiroCoordPoligono = 2;
 			}
 		}
+		
+		//TRANSFORMACOES
+		if (janelaDados.menuTransfGeom.btnCriarObjeto.isSelected()
+				|| janelaDados.menuTransfGeomComp.btnCriarObjeto.isSelected()) {
+
+			coordPoligono[ponteiroCoordPoligono] = e.getX();
+			coordPoligono[ponteiroCoordPoligono + 1] = e.getY();
+			coordenadasObjeto.add(e.getX());
+			coordenadasObjeto.add(e.getY());
+			coordenadasObjetoTransformado.add(e.getX());
+			coordenadasObjetoTransformado.add(e.getY());
+
+			ponteiroCoordPoligono = ponteiroCoordPoligono + 2;
+
+			if (ponteiroCoordPoligono == 4) {
+
+				calculoDesenho.desenharRetaDDA(coordPoligono);
+
+				coordPoligono[0] = coordPoligono[2];
+				coordPoligono[1] = coordPoligono[3];
+				ponteiroCoordPoligono = 2;
+
+				for (int i = 0; i < coordenadasObjeto.size(); i++) {
+					System.out.println("Valor " + i + ": " + coordenadasObjeto.get(i));
+					System.out.println("Valor Transf " + i + ": " + coordenadasObjetoTransformado.get(i));
+				}
+
+			}
+
+		}
+		
+		// --------------------------------------------------------
+		// Criar objeto transladado
+		if (janelaDados.menuTransfGeom.rbTranslacao.isSelected()) {
+			int[] objetoTransladado = transladar(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoTransladado);
+			redesenharObjetoTransformado(objetoTransladado);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto Escalado
+		if (janelaDados.menuTransfGeom.rbEscala.isSelected()) {
+			int[] objetoEscalado = escalar(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoEscalado);
+			redesenharObjetoTransformado(objetoEscalado);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto Cisalhado
+		if (janelaDados.menuTransfGeom.rbCisalhamento.isSelected()) {
+			int[] objetoCisalhado = cisalhar(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoCisalhado);
+			redesenharObjetoTransformado(objetoCisalhado);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto Rotacionado
+		if (janelaDados.menuTransfGeom.rbRotacao.isSelected()) {
+			int[] objetoRotacionado = rotacionar(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoRotacionado);
+			redesenharObjetoTransformado(objetoRotacionado);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto Reflexão Eixo X
+		if (janelaDados.menuTransfGeom.rbReflexao.isSelected()
+				&& janelaDados.menuTransfGeom.combo.getSelectedItem().equals("Em X")) {
+			int[] objetoRefletivoEixoX = reflexaoEixoX(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoRefletivoEixoX);
+			redesenharObjetoTransformado(objetoRefletivoEixoX);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto Reflexão Eixo Y
+		if (janelaDados.menuTransfGeom.rbReflexao.isSelected()
+				&& janelaDados.menuTransfGeom.combo.getSelectedItem().equals("Em Y")) {
+			int[] objetoRefletivoEixoY = reflexaoEixoY(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoRefletivoEixoY);
+			redesenharObjetoTransformado(objetoRefletivoEixoY);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto Reflexão Em torno da origem
+		// ---------------------------------------------------------
+		if (janelaDados.menuTransfGeom.rbReflexao.isSelected()
+				&& janelaDados.menuTransfGeom.combo.getSelectedItem().equals("Em torno da origem")) {
+			int[] objetoRefletivoEmTornoOrigem = reflexaoEmTornoOrigem(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoRefletivoEmTornoOrigem);
+			redesenharObjetoTransformado(objetoRefletivoEmTornoOrigem);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto: Reflexão Em torno da reta Y=X
+		// ---------------------------------------------------------
+		if (janelaDados.menuTransfGeom.rbReflexao.isSelected()
+				&& janelaDados.menuTransfGeom.combo.getSelectedItem().equals("Em torno da reta Y=X")) {
+			int[] objetoRefletivoEmTornoRetaYX = reflexaoEmTornoRetaYX(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoRefletivoEmTornoRetaYX);
+			redesenharObjetoTransformado(objetoRefletivoEmTornoRetaYX);
+		}
+		// --------------------------------------------------------
+
+		// --------------------------------------------------------
+		// Criar objeto: Reflexão Em torno da reta qualquer
+		// ---------------------------------------------------------
+		if (janelaDados.menuTransfGeom.rbReflexao.isSelected()
+				&& janelaDados.menuTransfGeom.combo.getSelectedItem().equals("Em torno da reta qualquer")) {
+			int[] objetoRefletivoEmTornoRetaQualquer = reflexaoEmTornoRetaQualquer(coordenadasObjeto);
+			printarCoordObjetoConsole(objetoRefletivoEmTornoRetaQualquer);
+			redesenharObjetoTransformado(objetoRefletivoEmTornoRetaQualquer);
+		}
+		// --------
+
+		// ##################################################################################################################################
+
+		// --------------------------------------------------------
+		// Criar cubo
+		// ---------------------------------------------------------
+		if (janelaDados.menuTransfGeom3D.btnCriarObjeto.isSelected()) {
+			// paintComponent(this.getGraphics());
+			// AQUI
+			// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+			int[] coordCubo = { 0, 0, 0, 100, 0, 0, 100, 100, 0, 0, 100, 0, 0, 0, -100, 100, 0, -100, 100, 100, 100, 0,
+					100, -100 };
+		}
+
 		
 	}
 	
@@ -355,5 +602,656 @@ public class JanelaPrincipal extends JFrame implements MouseListener, MouseMotio
 		 g2d.draw(shape);
 	}
 	
+	
+	//TRANSFORMACOES
+	// Transladar para origem
+		public int[] transladarOrigem(List<Integer> array) {
+			int[] coordenadasObjetoTransladado = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) - array.get(0));
+				} else {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) - array.get(1));
+				}
+			}
+			return coordenadasObjetoTransladado;
+		}// fim transladar origem
+
+		// Transladar para origem
+		public int[] transladarOrigem2(int[] array) {
+			int[] coordenadasObjetoTransladado = new int[array.length];
+
+			for (int i = 0; i < array.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array[i] - array[0]);
+				} else {
+					coordenadasObjetoTransladado[i] = (int) (array[i] - array[1]);
+				}
+			}
+			return coordenadasObjetoTransladado;
+		}// fim transladar origem2
+
+		// Transladar para ponto original
+		public int[] transladarPontoOriginal(int[] array) {
+			int[] coordenadasObjetoTransladado = new int[array.length];
+
+			for (int i = 0; i < array.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array[i] + coordenadasObjeto.get(0));
+				} else {
+					// coordenadasObjetoTransladado[i] = coordenadasObjeto.get(i) +
+					// Integer.valueOf(valorTy);
+					coordenadasObjetoTransladado[i] = (int) (array[i] + coordenadasObjeto.get(1));
+				}
+			}
+			return coordenadasObjetoTransladado;
+		}// fim transladar origem
+
+		public int[] transladarPontoOriginalComp(int[] array) {
+			int[] coordenadasObjetoTransladado = new int[array.length];
+
+			for (int i = 0; i < array.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array[i] + coordenadasObjetoTransformado.get(0));
+				} else {
+					coordenadasObjetoTransladado[i] = (int) (array[i] + coordenadasObjetoTransformado.get(1));
+				}
+			}
+			return coordenadasObjetoTransladado;
+		}// fim transladar origem
+
+		public int[] coordCentroTela(List<Integer> array) {
+			int[] coordCentroTela = new int[array.size()];
+			int dimensãoX = (janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin);
+			int dimensãoY = (janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin);
+			System.out.println("Dimensão X:" + dimensãoX);
+			System.out.println("Dimensão Y:" + dimensãoY);
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordCentroTela[i] = (int) (array.get(i) - dimensãoX / 2);
+				} else {
+					coordCentroTela[i] = (int) (array.get(i) - dimensãoY / 2) * -1;
+				}
+			}
+			return coordCentroTela;
+		}
+
+		public int[] coordOriginal(int[] array) {
+			int[] coordOriginal = new int[array.length];
+			int dimensãoX = (janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin);
+			int dimensãoY = (janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin);
+			System.out.println("Dimensão X:" + dimensãoX);
+			System.out.println("Dimensão Y:" + dimensãoY);
+
+			for (int i = 0; i < array.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordOriginal[i] = (int) (array[i] + dimensãoX / 2);
+				} else {
+					coordOriginal[i] = (int) (array[i] - dimensãoY / 2) * -1;
+				}
+			}
+			return coordOriginal;
+		}
+		
+		public void paintComponent(Graphics g) {
+			super.paint(g);
+			this.setBackground(Color.white);
+			g.setColor(Color.LIGHT_GRAY);
+
+			g.drawRect(400, 400, 100, 100);
+			g.drawRect(400 + 50, 400 + 50, 100, 100);
+
+			g.drawLine(getWidth() / 10, getHeight() / 10, (getWidth() / 10) + 50, (getHeight() / 10) + 50);
+			g.drawLine(getWidth() / 10, (getHeight() / 10) + 100, (getWidth() / 10) + 50, (getHeight() / 10) + 50 + 100);
+			g.drawLine((getWidth() / 10) + 100, getHeight() / 10, (getWidth() / 10) + 50 + 100, (getHeight() / 10) + 50);
+			g.drawLine((getWidth() / 10) + 100, (getHeight() / 10) + 100, (getWidth() / 10) + 100 + 50,
+					(getHeight() / 10) + 100 + 50);
+		}
+		
+		// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+		// Printar coordenadas do objeto no console
+		public void printarCoordObjetoConsole(int[] array) {
+			for (int i = 0; i < array.length; i++) {
+				System.out.println("Novo Valor " + i + ": " + array[i]);
+			}
+		}
+
+		// Redesenhar objeto transformado
+		public void redesenharObjetoTransformado(int[] array) {
+			int cont = 0;
+			for (int k = 0; k < ((array.length) / 2) - 1; k++) {
+				int[] doisPontos = new int[4];
+				doisPontos[0] = array[cont];
+				doisPontos[1] = array[cont + 1];
+				doisPontos[2] = array[cont + 2];
+				doisPontos[3] = array[cont + 3];
+				cont = cont + 2;
+				calculoDesenho.desenharRetaDDA(doisPontos);
+			}
+		}
+
+		// Redesenhar objeto transformado
+		public void redesenharObjetoTransformadoLista(List<Integer> lista) {
+			int cont = 0;
+			for (int k = 0; k < ((lista.size()) / 2) - 1; k++) {
+				int[] doisPontos = new int[4];
+				doisPontos[0] = lista.get(cont);
+				doisPontos[1] = lista.get(cont + 1);
+				doisPontos[2] = lista.get(cont + 2);
+				doisPontos[3] = lista.get(cont + 3);
+				cont = cont + 2;
+				calculoDesenho.desenharRetaDDA(doisPontos);
+			}
+		}
+
+		// Transladar objeto:
+		public int[] transladar(List<Integer> array) {
+			limparTela();
+			double valorTx = Double.parseDouble(janelaDados.menuTransfGeom.campoTx.getText());
+			double valorTy = Double.parseDouble(janelaDados.menuTransfGeom.campoTy.getText());
+
+			System.out.println("ok");
+			int[] coordenadasObjetoTransladado = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) + valorTx);
+
+				} else {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) + valorTy);
+
+				}
+			}
+			return coordenadasObjetoTransladado;
+		}
+
+		// Transladar objeto:
+		public List<Integer> transladarComp(List<Integer> array) {
+			double valorTxComp = Double.parseDouble(janelaDados.menuTransfGeomComp.campoTx.getText());
+			double valorTyComp = Double.parseDouble(janelaDados.menuTransfGeomComp.campoTy.getText());
+
+			int[] coordenadasObjetoTransladado = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) + valorTxComp);
+				} else {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) + valorTyComp);
+				}
+			}
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, coordenadasObjetoTransladado[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("translação " + j + ": " + array.get(j));
+			}
+
+			return coordenadasObjetoTransformado;
+		}
+
+		// Escalar objeto:
+		public int[] escalar(List<Integer> array) {
+			limparTela();
+			double valorTx = Double.parseDouble(janelaDados.menuTransfGeom.campoSx.getText());
+			double valorTy = Double.parseDouble(janelaDados.menuTransfGeom.campoSy.getText());
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem(coordenadasObjeto);
+
+			int[] coordenadasObjetoEscalado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoEscalado[i] = (int) (arrayCoordOrigem[i] * valorTx);
+				} else {
+					coordenadasObjetoEscalado[i] = (int) (arrayCoordOrigem[i] * valorTy);
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginal(coordenadasObjetoEscalado);
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("escala " + j + ": " + array.get(j));
+			}
+
+			return arrayCoordPontoOrigem;
+		}
+
+		public List<Integer> escalarComp(List<Integer> array) {
+			double valorTx = Double.parseDouble(janelaDados.menuTransfGeomComp.campoSx.getText());
+			double valorTy = Double.parseDouble(janelaDados.menuTransfGeomComp.campoSy.getText());
+			System.out.println("Aplicando escala no objeto");
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem(array);
+
+			int[] coordenadasObjetoEscalado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoEscalado[i] = (int) (arrayCoordOrigem[i] * valorTx);
+				} else {
+					coordenadasObjetoEscalado[i] = (int) (arrayCoordOrigem[i] * valorTy);
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginalComp(coordenadasObjetoEscalado);
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, arrayCoordPontoOrigem[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("Escala " + j + ": " + array.get(j));
+			}
+			return array;
+		}
+
+		public int[] cisalhar(List<Integer> array) {
+			limparTela();
+			double campoCx = Double.parseDouble(janelaDados.menuTransfGeom.campoCx.getText());
+			double campoCy = Double.parseDouble(janelaDados.menuTransfGeom.campoCy.getText());
+
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem(array);
+
+			int[] coordenadasObjetoCisalhado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoCisalhado[i] = (int) (arrayCoordOrigem[i] + (campoCx * arrayCoordOrigem[i + 1]));
+				} else {
+					coordenadasObjetoCisalhado[i] = (int) (arrayCoordOrigem[i] + (campoCy * arrayCoordOrigem[i - 1]));
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginal(coordenadasObjetoCisalhado);
+
+			return arrayCoordPontoOrigem;
+		}
+
+		public List<Integer> cisalharComp(List<Integer> array) {
+			double campoCx = Double.parseDouble(janelaDados.menuTransfGeomComp.campoCx.getText());
+			double campoCy = Double.parseDouble(janelaDados.menuTransfGeomComp.campoCy.getText());
+
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem(array);
+
+			int[] coordenadasObjetoCisalhado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoCisalhado[i] = (int) (arrayCoordOrigem[i] + (campoCx * arrayCoordOrigem[i + 1]));
+				} else {
+					coordenadasObjetoCisalhado[i] = (int) (arrayCoordOrigem[i] + (campoCy * arrayCoordOrigem[i - 1]));
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginalComp(coordenadasObjetoCisalhado);
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, arrayCoordPontoOrigem[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("Cisalhamento " + j + ": " + array.get(j));
+			}
+
+			return array;
+		}
+
+		public int[] rotacionar(List<Integer> array) {
+			limparTela();
+			double campoAng = Double.parseDouble(janelaDados.menuTransfGeom.campoAng.getText());
+
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem(array);
+
+			int[] coordenadasObjetoRotacionado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoRotacionado[i] = (int) (arrayCoordOrigem[i] * Math.cos(Math.toRadians(campoAng))
+							- arrayCoordOrigem[i + 1] * Math.sin(Math.toRadians(campoAng)));
+				} else {
+					coordenadasObjetoRotacionado[i] = (int) (arrayCoordOrigem[i] * Math.cos(Math.toRadians(campoAng))
+							+ arrayCoordOrigem[i - 1] * Math.sin(Math.toRadians(campoAng)));
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginal(coordenadasObjetoRotacionado);
+
+			return arrayCoordPontoOrigem;
+		}
+
+		public List<Integer> rotacionarComp(List<Integer> array) {
+			double campoAng = Double.parseDouble(janelaDados.menuTransfGeomComp.campoAng.getText());
+
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem(array);
+
+			int[] coordenadasObjetoRotacionado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoRotacionado[i] = (int) (arrayCoordOrigem[i] * Math.cos(Math.toRadians(campoAng))
+							- arrayCoordOrigem[i + 1] * Math.sin(Math.toRadians((campoAng*-1))));
+				} else {
+					coordenadasObjetoRotacionado[i] = (int) (arrayCoordOrigem[i] * Math.cos(Math.toRadians(campoAng))
+							+ arrayCoordOrigem[i - 1] * Math.sin(Math.toRadians((campoAng*-1))));
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginalComp(coordenadasObjetoRotacionado);
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, arrayCoordPontoOrigem[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("rotação " + j + ": " + array.get(j));
+			}
+
+			return array;
+		}
+
+		public int[] reflexaoEixoX(List<Integer> array) {
+			System.out.println("Reflexão em X");
+			limparTela();
+
+			int[] coordenadasObjetoReflexaoEmX = new int[coordenadasObjeto.size()];
+
+			for (int i = 0; i < coordenadasObjeto.size(); i++) {
+				if (i % 2 != 0) {
+					int alturaTelaEmY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+					if (coordenadasObjeto.get(i) < (alturaTelaEmY) / 2) {
+						coordenadasObjetoReflexaoEmX[i] = (int) (coordenadasObjeto.get(i)
+								+ ((alturaTelaEmY) / 2 - coordenadasObjeto.get(i)) * 2);
+					} else {
+						coordenadasObjetoReflexaoEmX[i] = (int) alturaTelaEmY - coordenadasObjeto.get(i);
+					}
+				} else {
+					coordenadasObjetoReflexaoEmX[i] = coordenadasObjeto.get(i);
+				}
+			}
+			return coordenadasObjetoReflexaoEmX;
+		}
+
+		public List<Integer> reflexaoEixoXComp(List<Integer> array) {
+			int[] coordenadasObjetoReflexaoEmX = new int[array.size()];
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 != 0) {
+					int alturaTelaEmY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+					if (array.get(i) < (alturaTelaEmY) / 2) {
+						coordenadasObjetoReflexaoEmX[i] = (int) (array.get(i) + ((alturaTelaEmY) / 2 - array.get(i)) * 2);
+					} else {
+						coordenadasObjetoReflexaoEmX[i] = (int) alturaTelaEmY - array.get(i);
+					}
+				} else {
+					coordenadasObjetoReflexaoEmX[i] = array.get(i);
+				}
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, coordenadasObjetoReflexaoEmX[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("reflexão em X " + j + ": " + array.get(j));
+			}
+
+			return array;
+		}
+
+		public int[] reflexaoEixoY(List<Integer> array) {
+			System.out.println("Reflexão em Y");
+			limparTela();
+
+			int[] coordenadasObjetoReflexaoEmY = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					int larguraTelaEmX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+					if (array.get(i) < (larguraTelaEmX) / 2) {
+						coordenadasObjetoReflexaoEmY[i] = (int) (larguraTelaEmX / 2
+								+ ((larguraTelaEmX) / 2 - array.get(i)));
+					} else {
+						coordenadasObjetoReflexaoEmY[i] = (int) larguraTelaEmX - array.get(i);
+					}
+				} else {
+					coordenadasObjetoReflexaoEmY[i] = array.get(i);
+				}
+			}
+			return coordenadasObjetoReflexaoEmY;
+		}
+
+		public List<Integer> reflexaoEixoYComp(List<Integer> array) {
+			int[] coordenadasObjetoReflexaoEmY = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					int larguraTelaEmX = janelaConfig.valorDispositivoXmax - janelaConfig.valorDispositivoXmin;
+					if (array.get(i) < (larguraTelaEmX) / 2) {
+						coordenadasObjetoReflexaoEmY[i] = (int) (larguraTelaEmX / 2
+								+ ((larguraTelaEmX) / 2 - array.get(i)));
+					} else {
+						coordenadasObjetoReflexaoEmY[i] = (int) larguraTelaEmX - array.get(i);
+					}
+				} else {
+					coordenadasObjetoReflexaoEmY[i] = array.get(i);
+				}
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, coordenadasObjetoReflexaoEmY[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("reflexão em Y " + j + ": " + array.get(j));
+			}
+			return array;
+		}
+
+		public int[] reflexaoEmTornoOrigem(List<Integer> array) {
+			System.out.println("Reflexão em torno da origem");
+			limparTela();
+
+			int[] coordCentroDeTela = coordCentroTela(array);
+			int[] coordCentroDeTelaRefletido = new int[coordCentroDeTela.length];
+
+			int[] coordenadasObjetoReflexaoEmTornoDaOrigem = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				coordCentroDeTelaRefletido[i] = (int) ((coordCentroDeTela[i]) * (-1));
+			}
+
+			int[] coordOriginal = coordOriginal(coordCentroDeTelaRefletido);
+
+			return coordOriginal;
+		}
+
+		public List<Integer> reflexaoEmTornoOrigemComp(List<Integer> array) {
+
+			int[] coordCentroDeTela = coordCentroTela(array);
+			int[] coordCentroDeTelaRefletido = new int[coordCentroDeTela.length];
+
+			int[] coordenadasObjetoReflexaoEmTornoDaOrigem = new int[array.size()];
+
+			for (int i = 0; i < array.size(); i++) {
+				coordCentroDeTelaRefletido[i] = (int) ((coordCentroDeTela[i]) * (-1));
+			}
+
+			int[] coordOriginal = coordOriginal(coordCentroDeTelaRefletido);
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, coordOriginal[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("reflexão em torno da origem " + j + ": " + array.get(j));
+			}
+
+			return array;
+		}
+
+		public int[] reflexaoEmTornoRetaYX(List<Integer> array) {
+			System.out.println("Reflexão em torno da reta Y=X");
+			limparTela();
+
+			int[] coordCentroDeTela = coordCentroTela(array);
+			int[] coordCentroDeTelaRefletido = new int[coordCentroDeTela.length];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0) {
+					coordCentroDeTelaRefletido[i] = (int) (coordCentroDeTela[i + 1]);
+				} else {
+					coordCentroDeTelaRefletido[i] = (int) (coordCentroDeTela[i - 1]);
+				}
+			}
+			int[] coordOriginal = coordOriginal(coordCentroDeTelaRefletido);
+
+			return coordOriginal;
+		}
+
+		public List<Integer> reflexaoEmTornoRetaYXComp(List<Integer> array) {
+			int[] coordCentroDeTela = coordCentroTela(array);
+			int[] coordCentroDeTelaRefletido = new int[coordCentroDeTela.length];
+
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0) {
+					coordCentroDeTelaRefletido[i] = (int) (coordCentroDeTela[i + 1]);
+				} else {
+					coordCentroDeTelaRefletido[i] = (int) (coordCentroDeTela[i - 1]);
+				}
+			}
+			int[] coordOriginal = coordOriginal(coordCentroDeTelaRefletido);
+
+			for (int j = 0; j < array.size(); j++) {
+				array.set(j, coordOriginal[j]);
+			}
+
+			for (int j = 0; j < array.size(); j++) {
+				System.out.println("reflexão em torno da reta Y=X " + j + ": " + array.get(j));
+			}
+
+			return array;
+		}
+
+		public int[] reflexaoEmTornoRetaQualquer(List<Integer> array) {
+			System.out.println("Reflexão em torno da reta qualquer");
+			limparTela();
+
+			double a = Double.parseDouble(janelaDados.menuTransfGeom.campoA.getText());
+			double b = Double.parseDouble(janelaDados.menuTransfGeom.campoB.getText());
+
+			// transladar objeto Ty = B
+			int[] coordenadasObjetoTransladado = new int[array.size()];
+			for (int i = 0; i < array.size(); i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) + 0);
+
+				} else {
+					coordenadasObjetoTransladado[i] = (int) (array.get(i) + b);
+
+				}
+			}
+			
+
+			// Rotacionar no angulo = arctg(A)
+			// transladar para origem:
+			int[] arrayCoordOrigem = transladarOrigem2(coordenadasObjetoTransladado);
+
+			int[] coordenadasObjetoRotacionado = new int[arrayCoordOrigem.length];
+
+			for (int i = 0; i < arrayCoordOrigem.length; i++) {
+				if (i % 2 == 0 || i == 0) {
+					coordenadasObjetoRotacionado[i] = (int) (arrayCoordOrigem[i] * Math.cos((Math.atan(a))
+							- arrayCoordOrigem[i + 1] * Math.sin((Math.atan(a)))));
+				} else {
+					coordenadasObjetoRotacionado[i] = (int) (arrayCoordOrigem[i] * Math.cos((Math.atan(a)))
+							+ arrayCoordOrigem[i - 1] * Math.sin((Math.atan(a))));
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem = transladarPontoOriginal(coordenadasObjetoRotacionado);
+			
+			
+			// Reflexão em torno o eixo X
+			int[] coordenadasObjetoReflexaoEmX = new int[arrayCoordPontoOrigem.length];
+
+			for (int i = 0; i < arrayCoordPontoOrigem.length; i++) {
+				if (i % 2 != 0) {
+					int alturaTelaEmY = janelaConfig.valorDispositivoYmax - janelaConfig.valorDispositivoYmin;
+					if (arrayCoordPontoOrigem[i] < (alturaTelaEmY) / 2) {
+						coordenadasObjetoReflexaoEmX[i] = (int) (arrayCoordPontoOrigem[i]
+								+ ((alturaTelaEmY) / 2 - arrayCoordPontoOrigem[i]) * 2);
+					} else {
+						coordenadasObjetoReflexaoEmX[i] = (int) alturaTelaEmY - arrayCoordPontoOrigem[i];
+					}
+				} else {
+					coordenadasObjetoReflexaoEmX[i] = arrayCoordPontoOrigem[i];
+				}
+			}
+
+			// Rotacionar no angulo = arctg(-A)
+			// transladar para origem:
+			int[] arrayCoordOrigem2 = transladarOrigem2(coordenadasObjetoReflexaoEmX);
+
+			int[] coordenadasObjetoRotacionado2 = new int[arrayCoordOrigem2.length];
+
+			for (int m = 0; m < arrayCoordOrigem2.length; m++) {
+				if (m % 2 == 0 || m == 0) {
+					coordenadasObjetoRotacionado2[m] = (int) (arrayCoordOrigem2[m]
+							* Math.cos((Math.atan(a * (-1)))
+									- arrayCoordOrigem2[m + 1] * Math.sin((Math.atan(a * (-1))))));
+				} else {
+					coordenadasObjetoRotacionado2[m] = (int) (arrayCoordOrigem2[m]
+							* Math.cos((Math.atan(a * (-1))))
+							+ arrayCoordOrigem2[m - 1] * Math.sin((Math.atan(a * (-1)))));
+				}
+			}
+			// Voltar para ponto original
+			int[] arrayCoordPontoOrigem2 = transladarPontoOriginal(coordenadasObjetoRotacionado2);
+
+			// transladar objeto Ty = -B
+			int[] coordenadasObjetoTransladado2 = new int[arrayCoordPontoOrigem2.length];
+			for (int n = 0; n < arrayCoordPontoOrigem2.length; n++) {
+				if (n % 2 == 0 || n == 0) {
+					coordenadasObjetoTransladado2[n] = (int) (arrayCoordPontoOrigem2[n] + 0);
+
+				} else {
+					coordenadasObjetoTransladado2[n] = (int) (arrayCoordPontoOrigem2[n] - b);
+
+				}
+			}
+			
+			return coordenadasObjetoTransladado2;
+		}
+
+		public List<Integer> transformarArrayEmArrayList(int[] array) {
+			List<Integer> lista = new ArrayList<>();
+			for (int i = 0; i < array.length; i++) {
+				lista.add(array[i]);
+			}
+			return lista;
+		}
+
+		public int[] transformarArrayListEmArray(List<Integer> lista) {
+			int[] array = new int[lista.size()];
+			for (int i = 0; i < lista.size(); i++) {
+				array[i] = lista.get(i);
+			}
+			return array;
+		}
+
+		public void atualizarListaTransformada(List<Integer> lista) {
+			coordenadasObjetoTransformado.clear();
+			for (int i = 0; i < lista.size(); i++) {
+				coordenadasObjetoTransformado.add(lista.get(i));
+			}
+		}
+
 	
 }

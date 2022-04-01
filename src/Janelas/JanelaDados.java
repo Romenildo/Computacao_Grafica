@@ -43,6 +43,9 @@ import TelaMenus.PanelOperacoes;
 import TelaMenus.PanelProcessamento;
 import TelaMenus.PanelRitmoCardiaco;
 import TelaMenus.PanelSnowFlake;
+import TelaMenus.PanelTransfGeom;
+import TelaMenus.PanelTransfGeom3D;
+import TelaMenus.PanelTransfGeomComp2;
 import TelaMenus.panelCoordenadas;
 import TelaMenus.panelRetaDDA;
 import TelaMenus.panelRetaPontoMedio;
@@ -82,6 +85,11 @@ public class JanelaDados extends JFrame{
 	public PanelSnowFlake menuSnowFlake = new PanelSnowFlake();
 	public PanelRitmoCardiaco menuRitmoCardiaco = new PanelRitmoCardiaco();
 	
+	//TRANSFORMACOES
+	public PanelTransfGeom menuTransfGeom = new PanelTransfGeom();
+	public PanelTransfGeomComp2 menuTransfGeomComp = new PanelTransfGeomComp2();
+	public PanelTransfGeom3D menuTransfGeom3D = new PanelTransfGeom3D();
+	
 	//DECLARACAO DOS MENUS
 	JMenuBar barra = new JMenuBar();
 	
@@ -100,7 +108,13 @@ public class JanelaDados extends JFrame{
 	JMenuItem item2D_CircMT = new JMenuItem("Circunferência Método Trigonométrico");
 	JMenuItem item2D_CircPM = new JMenuItem("Circunferência Ponto médio");
 	JMenuItem item2D_Elipse = new JMenuItem("Elipse");
+	JMenuItem item2D_TransfGeom = new JMenuItem("Transformações Geométricas");
+	JMenuItem item2D_TransfGeomComp = new JMenuItem("Transformações Geométricas Compostas");
 	
+	// menu 3d
+	JMenu menu3D = new JMenu("Gráficos 3D");
+	JMenuItem item3D_TransfGeom = new JMenuItem("Transformações Geométricas(Incompleto)");
+		
 	//menu imagens
 	JMenu menuImagens = new JMenu("Imagens");
 	JMenuItem itemImg_filtros = new JMenuItem("Filtros");
@@ -142,6 +156,12 @@ public class JanelaDados extends JFrame{
 		menu2D.add(item2D_CircMT);
 		menu2D.add(item2D_CircPM);
 		menu2D.add(item2D_Elipse);
+		menu2D.add(item2D_TransfGeom);
+		menu2D.add(item2D_TransfGeomComp);
+
+		// menu graficos3D
+		barra.add(menu3D);
+		menu3D.add(item3D_TransfGeom);
 		
 		//menu Imagens
 		barra.add(menuImagens);
@@ -207,6 +227,26 @@ public class JanelaDados extends JFrame{
             	mudarPanelElipse();
             }
         });
+		// tela Transformações Geométricas
+		item2D_TransfGeom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelTransfGeom();
+			}
+		});
+
+		// tela Transformações Geométricas
+		item2D_TransfGeomComp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelTransfGeomComp();
+			}
+		});
+
+		// tela Transformações Geométricas 3D
+		item3D_TransfGeom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mudarPanelTransfGeom3D();
+			}
+		});
 		
 		//tela Filtros
 		itemImg_filtros.addActionListener(new ActionListener() {
@@ -400,6 +440,20 @@ public class JanelaDados extends JFrame{
 	private void mudarPanelCircunferenciaPM() {
 		panelPrincipal.setVisible(true);
 		mudarPanelPrincipal(menuCircunferenciaPM);
+	}
+	private void mudarPanelTransfGeom() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuTransfGeom);
+	}
+	
+	private void mudarPanelTransfGeomComp() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuTransfGeomComp);
+	}
+
+	private void mudarPanelTransfGeom3D() {
+		panelPrincipal.setVisible(true);
+		mudarPanelPrincipal(menuTransfGeom3D);
 	}
 	private void mudarPanelElipse() {
 		panelPrincipal.setVisible(true);
